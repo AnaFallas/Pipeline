@@ -24,6 +24,7 @@ module Procesador_RISC;
     wire mem_read;
     wire mem_to_reg;
     wire [1:0] Alu_Op;
+    wire [1:0] ImmGen;
     wire mem_write;
     wire alu_src;
     wire reg_write;
@@ -32,7 +33,7 @@ module Procesador_RISC;
 
     wire zero_alu;
 
-    wire [3:0] alu_opcode;
+    //wire [1:0] alu_opcode;
     wire [63:0] output_pc_adder, output_data_memory, output_alu, reg_data_1, reg_data_2,output_alu_multiplexor, input_data_register, output_sign_extend, output_shift_unit, output_shift_unit_adder;
 
     initial begin
@@ -63,14 +64,20 @@ module Procesador_RISC;
         );
     ControlUnit ControlUnit1(
         instruction[6:0],
-        branch,
+        instruction[14:12],
+
+        alu_src,
+        mem_to_reg,
+        reg_write,
         mem_read,
-         mem_to_reg, 
-         Alu_Op, 
-         mem_write, 
-         alu_src,
-         reg_write
+        mem_write, 
+        branch,
+
+        Alu_Op, 
+        ImmGen
          );
+
+         
 
     RegisterBank register_bank(
         instruction[19:15], 
@@ -90,11 +97,18 @@ module Procesador_RISC;
         );
     Alu alu1(
         reg_data_1, 
-       output_alu_multiplexor, 
-        alu_opcode, 
+        output_alu_multiplexor, 
+        Alu_Op,
+        //alu_opcode, 
         output_alu, 
         zero_alu
         );
+    immgen GenImm(
+        instruction,
+        ImmGen,
+        output_sign_extend
+    );
+    
     ShiftUnit shift_unit(
         output_sign_extend, 
         output_shift_unit
@@ -126,11 +140,11 @@ module Procesador_RISC;
         mem_to_reg, 
         input_data_register
         );
-    AluControl alu_control_unit(
-        Alu_Op, 
-        instruction[31:21], 
-        alu_opcode
-        );
+   // AluControl alu_control_unit(
+     //   Alu_Op, 
+     //   instruction[31:21], 
+     //   alu_opcode
+      //  );
 
     initial begin
         $dumpfile("Procesador_RISC.vcd");

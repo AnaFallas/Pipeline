@@ -1,6 +1,6 @@
 module Alu(
     input logic [63:0] A, B,
-    input logic [3:0] ALU_Sel,
+    input logic [1:0] ALU_Sel,
     output logic [63:0] ALU_Out,
     output logic coutfin, 
     output logic z 
@@ -28,14 +28,14 @@ module Alu(
     begin
        
         case (ALU_Sel)
-            4'b0000: ALU_Result = A & B;
-            4'b0001: ALU_Result = A | B;
-            4'b0010: ALU_Result = Suma_s;
+            2'b00: ALU_Result = A & B;
+            2'b01: ALU_Result = A | B;
+            2'b10: ALU_Result = Suma_s;
             default: ALU_Result = 64'b0;
         endcase
 
        
-        if (ALU_Result == 64'b0)
+        if (ALU_Result == A << 1)
             z = 1'b1;
         else
             z = 1'b0;
