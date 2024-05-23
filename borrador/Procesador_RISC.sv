@@ -10,6 +10,8 @@
 `include "ShiftUnit.sv"
 `include "DataMemory.sv"
 `include "Multiplexor.sv"
+
+`include "immgen.sv"
 //`include "AluControl.sv"
 `include "SumaC2.sv"
 module Procesador_RISC;
