@@ -23,7 +23,7 @@ module ControlUnit (
     always_ff @(OpCode) begin
         case(OpCode)
             7'b0110011: begin //type r
-                case (AluoR)
+                case (AluR)
                 3'b000: outcome =10'b001000_10_11;//add y sub
                 3'b111: outcome =10'b001000_00_11;//and
                 3'b110: outcome =10'b001000_01_11;//or
