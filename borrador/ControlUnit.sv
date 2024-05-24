@@ -16,7 +16,7 @@ module ControlUnit (
 
     always_comb begin
         {AluSrc, MemtoReg, RegWrite, MemRead, MemWrite, Branch} = outcome[9:4];
-        Aluop= ouotcme [3:2];
+        Aluop= outcome [3:2];
         Imm = outcome[1:0];
     end
 
