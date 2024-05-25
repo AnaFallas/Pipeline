@@ -53,6 +53,7 @@ module ID_EX (
             reg_MemRead <= 1'b0;
             reg_MemWrite <= 1'b0;
             reg_Aluop <= 2'b00;
+
             reg_rs1Data <= 31'b0;
             reg_rs2Data <= 31'b0;
             reg_rs <= 5'b0;
@@ -60,7 +61,7 @@ module ID_EX (
             reg_rd <= 5'b0;
             reg_immediate <= 31'b0;
         end else begin
-            reg_AluSrc <= Aluop_in;
+            reg_AluSrc <= AluSrc_in;
             reg_MemtoReg <= MemtoReg_in;
             reg_RegWrite <= RegWrite_in;
             reg_MemRead <= MemRead_in;
@@ -76,7 +77,7 @@ module ID_EX (
     end
 
     // Asignamos las salidas de los registros
-    assign Aluop_in = reg_Aluop;
+    assign  AluSrc_out = reg_AluSrc;
     assign MemtoReg_out = reg_MemtoReg  ;
     assign RegWrite_out = reg_RegWrite;
     assign MemRead_out = reg_MemRead;
