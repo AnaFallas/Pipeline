@@ -7,12 +7,12 @@ module ID_EX (
     input logic MemRead_in,
     input logic MemWrite_in,
     input logic Aluop_in,
-    input logic [31:0] rs1Data_in,
-    input logic [31:0] rs2Data_in,
+    input logic [63:0] rs1Data_in,
+    input logic [63:0] rs2Data_in,
     input logic [4:0] rs_in,
     input logic [4:0] rt_in,
     input logic [4:0] rd_in,
-    input logic [31:0] immediate_in,
+    input logic [63:0] immediate_in,
     
     output logic AluSrc_out,
     output logic MemtoReg_out,
@@ -20,12 +20,12 @@ module ID_EX (
     output logic MemRead_out,
     output logic MemWrite_out,
     output logic Aluop_out,
-    output logic [31:0] rs1Data_out,
-    output logic [31:0] rs2Data_out,
+    output logic [63:0] rs1Data_out,
+    output logic [63:0] rs2Data_out,
     output logic [4:0] rs_out,
     output logic [4:0] rt_out,
     output logic [4:0] rd_out,
-    output logic [31:0] immediate_out
+    output logic [63:0] immediate_out
 );
 
     // Declaración de los registros del pipeline
@@ -36,12 +36,12 @@ module ID_EX (
     logic reg_MemRead;
     logic reg_MemWrite;
     logic reg_Aluop;
-    logic [31:0] reg_rs1Data;
-    logic [31:0] reg_rs2Data;
+    logic [63:0] reg_rs1Data;
+    logic [63:0] reg_rs2Data;
     logic [4:0] reg_rs;
     logic [4:0] reg_rt;
     logic [4:0] reg_rd;
-    logic [31:0] reg_immediate;
+    logic [63:0] reg_immediate;
     
 
     // Proceso para el registro de pipeline
@@ -53,13 +53,12 @@ module ID_EX (
             reg_MemRead <= 1'b0;
             reg_MemWrite <= 1'b0;
             reg_Aluop <= 2'b00;
-
             reg_rs1Data <= 31'b0;
             reg_rs2Data <= 31'b0;
             reg_rs <= 5'b0;
             reg_rt <= 5'b0;
             reg_rd <= 5'b0;
-            reg_immediate <= 31'b0;
+            reg_immediate <= 63'b0;
         end else begin
             reg_AluSrc <= AluSrc_in;
             reg_MemtoReg <= MemtoReg_in;
