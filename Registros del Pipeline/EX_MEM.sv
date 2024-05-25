@@ -57,7 +57,6 @@ always_ff @(posedge clk or posedge reset) begin
 
     end
 
-
     end
     //señales
     assign RegWrite_Out = Rg_RegWrite_Out;
