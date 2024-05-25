@@ -6,13 +6,13 @@ module DataMemory (
     output logic [63:0] dataout
 );
 
-    logic [7:0] MEMO[0:255];
+    logic [7:0] MEMO[31:0];
 
-    integer i;
+    /*integer i;
     initial begin
         for (i = 0; i < 255; i = i + 1)
             MEMO[i] = i;
-    end
+    end*/
 
     always_ff @(posedge clk) begin
         if (w) begin
