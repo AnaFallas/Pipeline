@@ -26,25 +26,25 @@ module InstructionMemory #(parameter size = 64) (
         Memory[14] = 8'h00;
         Memory[15] = 8'hF8;*/
 
-        Memory[0] = 8'h93;
-        Memory[1] = 8'h00;
-        Memory[2] = 8'h40;
-        Memory[3] = 8'h01;
+        Memory[0] = 8'h03;
+        Memory[1] = 8'h21;
+        Memory[2] = 8'h00;
+        Memory[3] = 8'h00;
 
-        Memory[4] = 8'h23;
-        Memory[5] = 8'h20;
-        Memory[6] = 8'h10;
+        Memory[4] = 8'hB3;
+        Memory[5] = 8'h00;
+        Memory[6] = 8'h21;
         Memory[7] = 8'h00;
 
-        Memory[8] = 8'h03;
-        Memory[9] = 8'h21;
-        Memory[10] = 8'h00;
+        Memory[8] = 8'h23;
+        Memory[9] = 8'h26;
+        Memory[10] = 8'h10;
         Memory[11] = 8'h00;
 
-        /*Memory[12] = 8'hA6;
-        Memory[13] = 8'h10;
-        Memory[14] = 8'h00;
-        Memory[15] = 8'hF8;*/
+        Memory[12] = 8'h83;
+        Memory[13] = 8'h21;
+        Memory[14] = 8'hC0;
+        Memory[15] = 8'h00;
     end
 
     assign Instruction[7:0] = Memory[adr + 0]; 
