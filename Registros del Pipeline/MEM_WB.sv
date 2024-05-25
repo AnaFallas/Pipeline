@@ -35,19 +35,16 @@ always_ff @(posedge clk or posedge reset) begin
         Rg_RegWrite_Out <= 1'b0;
         Rg_MemtoReg_Out <= 1'b0;
 
-
      // Inicializar los datos a cero en caso de reset
         Rg_ALUOut  <= 64'b0;
         Rg_DatOut <= 64'b0;
         Rg_Rd_out  <= 5'b0;
-
 
     end else begin 
     //valores de control a la salida
         Rg_RegWrite_Out <= RegWrite;
         Rg_MemtoReg_Out <= MemtoReg;
         
-
     //valores de datos a la salida
         Rg_ALUOut <= AluOut_in;
         Rg_DatOut <= Dataout_Memory;
@@ -59,7 +56,6 @@ always_ff @(posedge clk or posedge reset) begin
     //señales
     assign RegWrite_Out = Rg_RegWrite_Out;
     assign MemtoReg_Out = Rg_MemtoReg_Out;
-
     //datos
     assign AluOut = Rg_ALUOut;
     assign DataOut = Rg_DatOut;
