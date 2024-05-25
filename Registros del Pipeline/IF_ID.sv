@@ -14,7 +14,7 @@ module IF_ID (
     logic [63:0] pc_reg;
 
  
-    always_ff @(posedge clk or posedge rst) begin
+    always_ff @(posedge clk ) begin
         if (rst | flush) begin
             instruction_reg <= 32'b0;
             pc_reg <= 64'b0;

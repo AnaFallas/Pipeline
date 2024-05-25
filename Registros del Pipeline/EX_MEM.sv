@@ -32,12 +32,12 @@ module EX_MEM (
     reg [63:0] Rg_DatOut;
     reg [4:0] Rg_Rd_out;
 
-always_ff @(posedge clk or posedge reset) begin
+always_ff @(posedge clk ) begin
     if (reset) begin
     // Inicializar las señales de control a cero en caso de reset
-        Rg_RegWrite_Out <= 0;
-        Rg_MemtoReg_Out <= 0;
-        Rg_MemWrite_Out <= 0;
+        Rg_RegWrite_Out <= 1'b0;
+        Rg_MemtoReg_Out <= 1'b0;
+        Rg_MemWrite_Out <= 1'b0;
 
      // Inicializar los datos a cero en caso de reset
         Rg_ALUOut  <= 64'b0;

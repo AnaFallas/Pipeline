@@ -45,16 +45,23 @@ module ID_EX (
     reg Rg_MemRead_Out;
     reg [1:0] Rg_AluOp_Out;
 
-    reg [63:0] Rg_ALUOut;
-    reg [63:0] Rg_DatOut;
+    reg [63:0] Rg_Rs1Out;
+    reg [63:0] Rg_Rs2Out;
     reg [4:0] Rg_Rd_out;
+    reg [4:0] Rg_Rs1AD_out;
+    reg [4:0] Rg_Rs2AD_out;
+    reg [63:0] Rg_SignExtendOut;
 
-always_ff @(posedge clk or posedge reset) begin
+
+always_ff @(posedge clk) begin
     if (reset) begin
     // Inicializar las señales de control a cero en caso de reset
-        Rg_RegWrite_Out <= 0;
-        Rg_MemtoReg_Out <= 0;
-        Rg_MemWrite_Out <= 0;
+        Rg_AluSrc_Out <= 1'b0;
+        Rg_RegWrite_Out <= 1'b0;
+        Rg_MemtoReg_Out <= 1'b0;
+        Rg_MemWrite_Out <= 1'b0;
+        Rg_MemRead_Out <= 1'b0;
+        Rg_AluOp_Out <= 2'b00;
 
      // Inicializar los datos a cero en caso de reset
         Rg_ALUOut  <= 64'b0;
