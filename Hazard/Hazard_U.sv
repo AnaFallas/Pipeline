@@ -3,7 +3,7 @@ module Hazard_U(
     input logic MemRead,
     input logic [31:0] Instruction, 
 
-    output logic SignalPC//deshabilita el PC para que no cambie / deshabilita el registro IF/ID para que mantenga la instruccion / se usa como control del mux
+    output logic SignalPC
 );
   
 initial begin
