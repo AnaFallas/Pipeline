@@ -6,7 +6,14 @@ module DataMemory (
     output logic [63:0] dataout
 );
 
-    logic [7:0] MEMO [31:0]; // Tamaño de la memoria ajustado
+
+    logic [63:0] MEMO [7:0]; // Tamaño de la memoria ajustado
+
+    initial begin
+        MEMO[0]=64'd15;
+        MEMO[1]=64'd10;
+        MEMO[2]=64'd100;
+    end
 
     always_ff @(posedge clk) begin
         if (w) begin
