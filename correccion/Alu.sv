@@ -35,7 +35,7 @@ module Alu(
         endcase
 
        
-        if (ALU_Result == A << 1)
+        if (A == B)
             z = 1'b1;
         else
             z = 1'b0;
