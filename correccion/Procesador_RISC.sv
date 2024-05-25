@@ -1,6 +1,6 @@
 `default_nettype none
 `timescale 1ns/10ps
-/*`include "Clock.sv"
+`include "Clock.sv"
 `include "pc.sv"
 `include "Adder.sv"
 `include "InstructionMemory.sv"
@@ -13,7 +13,7 @@
 
 `include "immgen.sv"
 //`include "AluControl.sv"
-`include "SumaC2.sv"*/
+`include "SumaC2.sv"
 module Procesador_RISC;
 
     wire clk;
