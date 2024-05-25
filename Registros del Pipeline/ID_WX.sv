@@ -1,4 +1,4 @@
-module ID_EX_Register (
+module ID_EX (
     input logic clk,
     input logic rst,
     input logic AluSrc_in,
