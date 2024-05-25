@@ -22,32 +22,48 @@ module EX_MEM (
     output logic [4:0] Rd_out
 
 );
+//Declaracion de registros
+    reg Rg_RegWrite_Out;
+    reg Rg_MemtoReg_Out;
+    reg Rg_MemWrite_Out;
+
+
+    reg [63:0] Rg_ALUOut;
+    reg [63:0] Rg_DatOut;
+    reg [4:0] Rg_Rd_out;
+
 always_ff @(posedge clk or posedge reset) begin
     if (reset) begin
     // Inicializar las señales de control a cero en caso de reset
-        RegWrite_Out <= 0;
-        MemtoReg_Out <= 0;
-        MemWrite_Out <= 0;
+        Rg_RegWrite_Out <= 0;
+        Rg_MemtoReg_Out <= 0;
+        Rg_MemWrite_Out <= 0;
 
      // Inicializar los datos a cero en caso de reset
-        AluOut  <= 64'b0;
-        DataOut <= 64'b0;
-        Rd_out  <= 5'b0;
-
+        Rg_ALUOut  <= 64'b0;
+        Rg_DatOut <= 64'b0;
+        Rg_Rd_out  <= 5'b0;
 
     end else begin 
     //valores de control a la salida
-        RegWrite_out <= RegWrite;
-        MemtoReg_out <= MemtoReg;
-        MemWrite_out <= MemWrite;
+        Rg_RegWrite_Out <= RegWrite;
+        Rg_MemtoReg_Out <= MemtoReg;
+        Rg_MemWrite_Out <= MemWrite;
 
     //valores de datos a la salida
-        AluOut <= AluResult;
-        DataOut <= Datain;
-        Rd_out <= Rd_in;
+        Rg_ALUOut  <= AluResult;
+        Rg_DatOut <= Datain;
+        Rg_Rd_out <= Rd_in;
 
     end
 
     end
-    
+    //señales
+    assign RegWrite_Out = Rg_RegWrite_Out;
+    assign MemtoReg_Out = Rg_MemtoReg_Out;
+    assign MemWrite_Out = Rg_MemWrite_Out;
+    //datos
+    assign AluOut = Rg_ALUOut;
+    assign DataOut = Rg_DatOut;
+    assign Rd_out= Rg_Rd_out;
 endmodule
