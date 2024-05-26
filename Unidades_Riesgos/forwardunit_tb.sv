@@ -1,5 +1,5 @@
 `timescale 1ns/1ns
-`include "ForwardingUnit.sv"
+`include "forwardingUnit.sv"
 
 module ForwardingUnit_tb;
 
@@ -16,7 +16,7 @@ module ForwardingUnit_tb;
     logic [1:0] forwardB;
 
     // Instancia del módulo ForwardingUnit bajo prueba
-    ForwardingUnit uut (
+    forwardingUnit uut (
         .Registro1(Registro1),
         .Registro2(Registro2),
         .Rd_execute(Rd_execute),
