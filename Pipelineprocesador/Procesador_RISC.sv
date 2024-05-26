@@ -268,16 +268,9 @@ module Procesador_RISC;
         .DataOut(output_data_memory_wb),
         .AluOut(output_alu_wb),
         .Rd_out(instruction_wb[11:7])
-
-
     );
- 
-
-
-
-
+    //Unidades de control de hazards
     
-
     initial begin
         $dumpfile("Procesador_RISC.vcd");
         $dumpvars(5, Procesador_RISC);
