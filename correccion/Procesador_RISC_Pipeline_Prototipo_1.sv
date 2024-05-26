@@ -12,6 +12,13 @@
 `include "DataMemory.sv"
 `include "Multiplexor.sv"
 
+`include "ID_EX.sv"
+`include "IF_ID.sv"
+`include "EX_MEM.sv"
+`include "MEM_WB.sv"
+
+`include "forwardunit.sv"
+`include "Hazard_U.sv"
 `include "immgen.sv"
 //`include "AluControl.sv"
 `include "SumaC2.sv"
