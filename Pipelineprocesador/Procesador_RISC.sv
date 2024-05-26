@@ -100,12 +100,13 @@ module Procesador_RISC;
     Clock clock1(
         clk
         );
-
+//Etapa del Instruction Fetch
     pc pc1(clk,
      pc_reset, 
      newpc, 
      fetch_pc
      );
+
     InstructionMemory InstructionMemory1(//LISTO
         .adr({2'b00,oldpc[63:2]}),
         .Instruction(instruction_fetch)
@@ -124,7 +125,7 @@ module Procesador_RISC;
         .Aluop(AluControl_id),
         .Imm(ImmGen)
          );
-
+//Etapa del Instruction Decode 
     RegisterBank register_bank(//listo
         instruction_id[19:15], 
         instruction_id[24:20], 
@@ -143,16 +144,8 @@ module Procesador_RISC;
         output_sign_extend_id
     );
    
-    Alu alu1(
-        .A(result_forwardA), 
-        .B(entrada_B_ALU),
-        .ALU_Sel(AluControl_ex),
-        .ALU_Out(output_alu_ex),
-        .coutfin(), //revisar 
-        .z() //logica del branch
-        );
-    
-    //logica del branch
+
+//logica del branch
     ShiftUnit shift_unit(
         output_sign_extend, 
         output_shift_unit
@@ -178,7 +171,16 @@ module Procesador_RISC;
         );
 //fin logica branch 
 
-    //MUXS de la estapa del execute 
+//Etapa del execute 
+    Alu alu1(
+        .A(result_forwardA), 
+        .B(entrada_B_ALU),
+        .ALU_Sel(AluControl_ex),
+        .ALU_Out(output_alu_ex),
+        .coutfin(), //revisar 
+        .z() //logica del branch
+        );
+    
     Mux3 forwardA(  
         .a(reg_data_1_ex),
         .b(resultWb),    
@@ -199,7 +201,7 @@ module Procesador_RISC;
         .select(AluSRC_ex),
         .result(entrada_B_ALU)
         );
-    //Etapa de MEM
+//Etapa de MEM
     DataMemory data_memory(
         output_alu, 
         reg_data_2, 
@@ -208,7 +210,7 @@ module Procesador_RISC;
         clk, 
         output_data_memory_mem
         );
-    //Etapa del WriteBack
+//Etapa del WriteBack
     Multiplexor data_memory_multiplexor(
         output_alu, 
         output_data_memory, 
