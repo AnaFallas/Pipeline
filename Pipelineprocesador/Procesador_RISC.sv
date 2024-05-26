@@ -16,6 +16,7 @@
 `include "IF_ID.sv"
 `include "ID_EX.sv"
 `include "EX_MEM.sv"
+`include "MEM_WB.sv"
 
 
 module Procesador_RISC;
@@ -57,6 +58,12 @@ module Procesador_RISC;
     logic output_alu_ex[63:0];
     logic output_alu_mem[63:0];
     logic instruction_mem[31:0];
+
+//Variables para registro MEM/WB
+    logic output_data_memory_mem[63:0];
+    logic output_data_memory_wb[63:0];
+    logic output_alu_wb[63:0];
+    logic instruction_wb[31:0];
 
 
 
@@ -166,7 +173,7 @@ module Procesador_RISC;
         mem_write, 
         mem_read, 
         clk, 
-        output_data_memory
+        output_data_memory_mem
         );
     Multiplexor data_memory_multiplexor(
         output_alu, 
@@ -241,7 +248,31 @@ module Procesador_RISC;
         .Rd_out(instruction_mem[11:7])
     );
 
-    
+    MEM_WB PipelineRegistro4(
+        .clk(clk),
+        .reset(),//pa despues
+    // Señales de entrada
+        .RegWrite(),
+        .MemtoReg(),
+
+    //Datos de entrada
+        .Dataout_Memory(output_data_memory_mem),
+        .AluOut_in(output_alu_mem),
+        .Rd_in(instruction_mem[11:7]),
+
+    // Señales de salida
+        .RegWrite_Out(),
+        .MemtoReg_Out(),
+
+    //datos de salida 
+        .DataOut(output_data_memory_wb),
+        .AluOut(output_alu_wb),
+        .Rd_out(instruction_wb[11:7])
+
+
+    );
+ 
+
 
 
 
