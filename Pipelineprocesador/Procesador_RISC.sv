@@ -10,17 +10,20 @@
 `include "ShiftUnit.sv"
 `include "DataMemory.sv"
 `include "Multiplexor.sv"
-
 `include "immgen.sv"
 //`include "AluControl.sv"
 `include "SumaC2.sv"
+//Archivos nuevos
+`include "IF_ID.sv"
+
+
 module Procesador_RISC;
 
     wire clk;
     reg pc_reset;
     wire [63:0] oldpc;
     wire [63:0] newpc;
-    wire [31:0] instruction;
+   // wire [31:0] instruction;
     wire reg_to_loc;
     wire branch;
     wire mem_read;
@@ -34,6 +37,11 @@ module Procesador_RISC;
     wire [4:0] output_register_bank_multiplexor;
 
     wire zero_alu;
+//Variable para registro IF/ID
+    logic instruction_fetch[31:0];
+    logic instruction_id[31:0];
+    logic fetch_pc[63:0];
+    logic id_pc[63:0];
 
     //wire [1:0] alu_opcode;
     wire [63:0] output_pc_adder, output_data_memory, output_alu, reg_data_1, reg_data_2,output_alu_multiplexor, input_data_register, output_sign_extend, output_shift_unit, output_shift_unit_adder;
@@ -53,17 +61,20 @@ module Procesador_RISC;
      newpc, 
      oldpc
      );
-
-    Adder adder1(
+   //Quite este adder porque es parte de la lógica del branch que no tenemos todavía 
+   /* Adder adder1(
         oldpc,
         64'b100, 
         output_pc_adder
+        );*/ 
+
+    InstructionMemory InstructionMemory1(//LISTO
+        .adr({2'b00,oldpc[63:2]}),
+        .Instruction(instruction_fetch)
+        //{2'b00,oldpc[63:2]}, 
+        //instruction
         );
 
-    InstructionMemory InstructionMemory1(
-        {2'b00,oldpc[63:2]}, 
-        instruction
-        );
     ControlUnit ControlUnit1(
         instruction[6:0],
         instruction[14:12],
@@ -142,11 +153,24 @@ module Procesador_RISC;
         mem_to_reg, 
         input_data_register
         );
-   // AluControl alu_control_unit(
-     //   Alu_Op, 
-     //   instruction[31:21], 
-     //   alu_opcode
-      //  );
+
+    //Pipeline registros 
+    IF_ID PipelineRegisto1(
+        .clk(clk),
+        .rst(pc_reset),
+        .instruction_in(instruction_fetch),
+        .pc(fetch_pc),
+        .PCSrcD_Control(),//todavía no esta jsjs
+        .flush(),//hazard tampoco está
+        .instruction_out(instruction_id),
+        .out_pc(id_pc)
+    );
+
+    
+
+
+
+    
 
     initial begin
         $dumpfile("Procesador_RISC.vcd");
