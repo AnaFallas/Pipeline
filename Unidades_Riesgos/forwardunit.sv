@@ -1,4 +1,4 @@
-module forwardingunit(
+module forwardunit(
  input logic [4:0] Registro1,       // Dirección del registro1 (ID/EX.rs1)
     input logic [4:0] Registro2,       // Dirección del registro2 (ID/EX.rs2)
     input logic [4:0] Rd_execute,      // Dirección del registro destino en la etapa EX/MEM (EX/MEM.rd)
