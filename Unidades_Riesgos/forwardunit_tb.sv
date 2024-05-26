@@ -1,7 +1,7 @@
 `timescale 1ns/1ns
 `include "forwardunit.sv"
 
-module forwardingunit_tb;
+module forwardunit_tb;
 
     // Definición de señales de entrada
     logic [4:0] Registro1;
@@ -29,8 +29,8 @@ module forwardingunit_tb;
 
     // Generación de estímulos
     initial begin
-        $dumpfile("ForwardingUnitTb.vcd");
-        $dumpvars(0, ForwardingUnit_tb);
+        $dumpfile("forwardunit_tb.vcd");
+        $dumpvars(0, forwardunit_tb);
         
         // Prueba 1: No hay reenvío
         ex_regwrite = 0;
