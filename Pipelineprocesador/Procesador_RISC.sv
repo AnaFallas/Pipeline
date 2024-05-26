@@ -17,6 +17,7 @@
 `include "ID_EX.sv"
 `include "EX_MEM.sv"
 `include "MEM_WB.sv"
+`include "MEM_WB.sv"
 
 
 module Procesador_RISC;
@@ -270,7 +271,7 @@ module Procesador_RISC;
         .Rd_out(instruction_wb[11:7])
     );
     //Unidades de control de hazards
-    
+
     initial begin
         $dumpfile("Procesador_RISC.vcd");
         $dumpvars(5, Procesador_RISC);
