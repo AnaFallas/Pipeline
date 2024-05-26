@@ -54,8 +54,6 @@ module Procesador_RISC;
 //---------------------------------
     logic RegWrite_wb;
     logic MemtoReg_wb;
-
-    wire zero_alu;
 //Variables para registro IF/ID
     logic instruction_fetch[31:0];
     logic instruction_id[31:0];
@@ -144,7 +142,6 @@ module Procesador_RISC;
         output_sign_extend_id
     );
    
-
 //logica del branch
     ShiftUnit shift_unit(
         output_sign_extend, 
@@ -177,8 +174,6 @@ module Procesador_RISC;
         .B(entrada_B_ALU),
         .ALU_Sel(AluControl_ex),
         .ALU_Out(output_alu_ex),
-        .coutfin(), //revisar 
-        .z() //logica del branch
         );
     
     Mux3 forwardA(  

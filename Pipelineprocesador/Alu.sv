@@ -3,7 +3,7 @@ module Alu(
     input logic [1:0] ALU_Sel,
     output logic [63:0] ALU_Out,
     output logic coutfin, 
-    output logic z 
+    //output logic z 
 );
 
     logic [63:0] ALU_Result;
@@ -35,10 +35,10 @@ module Alu(
         endcase
 
        
-        if (A == B)
+       /* if (A == B)
             z = 1'b1;
         else
-            z = 1'b0;
+            z = 1'b0;*/
     end
 
     // Conexión de la salida coutfin con el carry-out de la suma
