@@ -30,16 +30,38 @@ module Procesador_RISC;
     wire [63:0] newpc;//veremos
    // wire [31:0] instruction;
     wire reg_to_loc;
-    wire branch;
-    wire mem_read;
-    wire mem_to_reg;
-    wire [1:0] Alu_Op;
+    //wire branch;
+    //wire mem_read;
+   // wire mem_to_reg;
+   // wire [1:0] Alu_Op;
     wire [1:0] ImmGen;
-    wire mem_write;
-    wire alu_src;
-    wire reg_write;
+   // wire mem_write;
+   // wire alu_src;
+   // wire reg_write;
     wire muxShift;
     wire [4:0] output_register_bank_multiplexor;
+//Variables de control
+    logic branch_id;
+    logic RegWrite_id;
+    logic MemtoReg_id;
+    logic MemWrite_id;
+    logig AluControl_id[2:0];
+    logic AluSRC_id;
+    logic MemRead_id;
+
+    logic RegWrite_ex;
+    logic MemtoReg_ex;
+    logic MemWrite_ex;
+    logic MemRead_ex;
+    logig AluControl_ex[2:0];
+    logic AluSRC_ex;
+
+    logic RegWrite_mem;
+    logic MemtoReg_mem;
+    logic MemWrite_mem;
+
+    logic RegWrite_wb;
+    logic MemtoReg_wb;
 
     wire zero_alu;
 //Variables para registro IF/ID
@@ -104,37 +126,35 @@ module Procesador_RISC;
         );
 
     ControlUnit ControlUnit1(
-        instruction[6:0],
-        instruction[14:12],
+        .OpCode(instruction_id[6:0]),
+        .AluR(instruction_id[14:12]),
 
-        alu_src,
-        mem_to_reg,
-        reg_write,
-        mem_read,
-        mem_write, 
-        branch,
-
-        Alu_Op, 
-        ImmGen
+        .AluSrc(AluSRC_id),
+        .MemtoReg(MemtoReg_id),
+        .RegWrite(RegWrite_id),
+        .MemRead(MemRead_id),
+        .MemWrite(MemWrite_id),
+        .Branch(branch_id),
+        .Aluop(AluControl_id),
+        .Imm(ImmGen)
          );
-         
-    RegisterBank register_bank(
+
+    RegisterBank register_bank(//listo
         instruction_id[19:15], 
         instruction_id[24:20], 
         instruction_id[11:7], 
 
         input_data_register, //nuevo dato despues de un sw o lw
         clk, 
-        reg_write, 
+        reg_write, //Aqui va el de WB
         reg_data_1_id, 
         reg_data_2_id
         );
 
-     immgen GenImm(
-        instruction,
+     immgen GenImm(//listo
+        instruction_id,
         ImmGen,
         output_sign_extend_id
-       // output_sign_extend
     );
     Multiplexor alu_multiplexor(
         reg_data_2, 
@@ -145,7 +165,7 @@ module Procesador_RISC;
     Alu alu1(
         reg_data_1, 
         output_alu_multiplexor, 
-        Alu_Op, 
+        AluControl_id, 
         output_alu_ex, 
         zero_alu
         );
@@ -198,12 +218,12 @@ module Procesador_RISC;
     ID_EX PipelineRegistro2(
         .clk(clk),
         .rst(),//pa despues
-        .AluSrc_in(),//control
-        .MemtoReg_in(),
-        .RegWrite_in(),
-        .MemRead_in(),
-        .MemWrite_in(),
-        .Aluop_in(),//control
+        .AluSrc_in(AluSRC_id),//control
+        .MemtoReg_in(MemtoReg_id),
+        .RegWrite_in(RegWrite_id),
+        .MemRead_in(MemRead_id),
+        .MemWrite_in(MemWrite_id),
+        .Aluop_in(AluControl_id),//control
         .rs1Data_in(reg_data_1_id),//registerbanck
         .rs2Data_in(reg_data_2_id),
         .rs_in(instruction_id[19:15]),
@@ -212,12 +232,12 @@ module Procesador_RISC;
         .immediate_in(output_sign_extend_id),
 
 
-        .AluSrc_out(),
-        .MemtoReg_out(),
-        .RegWrite_out(),
-        .MemRead_out(),
-        .MemWrite_out(),
-        .Aluop_out(),
+        .AluSrc_out(AluSRC_ex),
+        .MemtoReg_out(MemtoReg_ex),
+        .RegWrite_out(RegWrite_ex),
+        .MemRead_out(MemRead_ex),
+        .MemWrite_out(MemWrite_ex),
+        .Aluop_out(AluControl_ex),
         .rs1Data_out(reg_data_1_ex),
         .rs2Data_out(reg_data_2_ex),
         .rs_out(instruction_ex[19:15]),
@@ -228,44 +248,37 @@ module Procesador_RISC;
     EX_MEM PipelineRegistro3(
         .clk(clk),
         .reset(),//pa despues
-
     // Señales de entrada, control
-        .RegWrite(),
-        .MemtoReg(),
-        .MemWrite(),
-
+        .RegWrite(RegWrite_ex),
+        .MemtoReg(MemtoReg_ex),
+        .MemWrite(MemWrite_ex),
+        //memread???
     //Datos de entrada
         .AluResult(output_alu_ex),
-        .Datain(),
+        .Datain(),//MUX
         .Rd_in(instruction_ex[11:7]),
-
     // Señales de salida
-        .RegWrite_Out(),
-        .MemtoReg_Out(),
-        .MemWrite_Out(),
-
+        .RegWrite_Out(RegWrite_mem),
+        .MemtoReg_Out(MemtoReg_mem),
+        .MemWrite_Out(MemWrite_mem),
     //datos de salida 
         .AluOut(output_alu_mem),
-        .DataOut(),
+        .DataOut(),//mux
         .Rd_out(instruction_mem[11:7])
     );
-
     MEM_WB PipelineRegistro4(
         .clk(clk),
         .reset(),//pa despues
     // Señales de entrada
         .RegWrite(),
         .MemtoReg(),
-
     //Datos de entrada
         .Dataout_Memory(output_data_memory_mem),
         .AluOut_in(output_alu_mem),
         .Rd_in(instruction_mem[11:7]),
-
     // Señales de salida
         .RegWrite_Out(),
         .MemtoReg_Out(),
-
     //datos de salida 
         .DataOut(output_data_memory_wb),
         .AluOut(output_alu_wb),
