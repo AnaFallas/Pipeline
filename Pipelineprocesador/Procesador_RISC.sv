@@ -86,6 +86,8 @@ module Procesador_RISC;
     logic selec_forwardB[1:0];
     logic result_forwardA[63:0];
     logic result_forwardB[63:0];
+    logic entrada_B_ALU[63:0];
+    logic result_forwardB_mem[63:0];
 //Hay que revisar porque hay señales que ya no se usan
     wire [63:0] output_pc_adder, output_data_memory, output_alu, reg_data_1, reg_data_2,output_alu_multiplexor, input_data_register, output_sign_extend, output_shift_unit, output_shift_unit_adder;
 
@@ -104,13 +106,6 @@ module Procesador_RISC;
      newpc, 
      fetch_pc
      );
-   //Quite este adder porque es parte de la lógica del branch que no tenemos todavía 
-   /* Adder adder1(
-        oldpc,
-        64'b100, 
-        output_pc_adder
-        );*/ 
-
     InstructionMemory InstructionMemory1(//LISTO
         .adr({2'b00,oldpc[63:2]}),
         .Instruction(instruction_fetch)
@@ -147,15 +142,10 @@ module Procesador_RISC;
         ImmGen,
         output_sign_extend_id
     );
-    Multiplexor alu_multiplexor(
-        reg_data_2, 
-        output_sign_extend, 
-        alu_src, 
-        output_alu_multiplexor
-        );
+   
     Alu alu1(
         .A(result_forwardA), 
-        .B(result_forwardB),
+        .B(entrada_B_ALU),
         .ALU_Sel(AluControl_ex),
         .ALU_Out(output_alu_ex),
         .coutfin(), //revisar 
@@ -173,6 +163,12 @@ module Procesador_RISC;
         output_shift_unit_adder
         );
     assign muxShift =   zero_alu & branch;
+    //Quite este adder porque es parte de la lógica del branch que no tenemos todavía 
+   /* Adder adder1(
+        oldpc,
+        64'b100, 
+        output_pc_adder
+        );*/ 
 
     Multiplexor shift_unit_multiplexor(
         output_pc_adder, 
@@ -180,22 +176,9 @@ module Procesador_RISC;
         muxShift, 
         newpc
         );
+//fin logica branch 
 
-    DataMemory data_memory(
-        output_alu, 
-        reg_data_2, 
-        mem_write, 
-        mem_read, 
-        clk, 
-        output_data_memory_mem
-        );
-    Multiplexor data_memory_multiplexor(
-        output_alu, 
-        output_data_memory, 
-        mem_to_reg, 
-        input_data_register
-        );
-    //MUX del execute 
+    //MUXS de la estapa del execute 
     Mux3 forwardA(  
         .a(reg_data_1_ex),
         .b(resultWb),    
@@ -210,9 +193,30 @@ module Procesador_RISC;
         .select(selec_forwardB),    
         .result(result_forwardB)
         );
+     Multiplexor alu_multiplexor(
+        .a(result_forwardB),
+        .b(output_sign_extend_ex),
+        .select(AluSRC_ex),
+        .result(entrada_B_ALU)
+        );
+    //Etapa de MEM
+    DataMemory data_memory(
+        output_alu, 
+        reg_data_2, 
+        mem_write, 
+        mem_read, 
+        clk, 
+        output_data_memory_mem
+        );
+    //Etapa del WriteBack
+    Multiplexor data_memory_multiplexor(
+        output_alu, 
+        output_data_memory, 
+        mem_to_reg, 
+        input_data_register
+        );
 
-
-    //Pipeline registros 
+    //Pipeline registros intermedios
     IF_ID PipelineRegisto1(
         .clk(clk),
         .rst(pc_reset),
@@ -262,7 +266,7 @@ module Procesador_RISC;
         .MemWrite(MemWrite_ex),
     //Datos de entrada
         .AluResult(output_alu_ex),
-        .Datain(),//MUX
+        .Datain(result_forwardB),//MUX
         .Rd_in(instruction_ex[11:7]),
     // Señales de salida
         .RegWrite_Out(RegWrite_mem),
@@ -270,7 +274,7 @@ module Procesador_RISC;
         .MemWrite_Out(MemWrite_mem),
     //datos de salida 
         .AluOut(output_alu_mem),
-        .DataOut(),//mux
+        .DataOut(result_forwardB_mem),//mux
         .Rd_out(instruction_mem[11:7])
     );
     MEM_WB PipelineRegistro4(
@@ -311,7 +315,7 @@ module Procesador_RISC;
         
         .SignalPC()//revisar el pc
     );
-//Falta: , poner los mux de 3 y 2 en el execute, copiar el reset, la unidad de branch  
+//Falta:copiar el reset, la unidad de branch  
     initial begin
         $dumpfile("Procesador_RISC.vcd");
         $dumpvars(5, Procesador_RISC);
