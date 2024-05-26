@@ -20,6 +20,7 @@
 `include "MEM_WB.sv"
 `include "forwardunit.sv"
 `include "Hazard_U.sv"
+`include "Mux3.sv"
 
 
 module Procesador_RISC;
@@ -189,6 +190,13 @@ module Procesador_RISC;
         mem_to_reg, 
         input_data_register
         );
+    //MUX del execute 
+    Mux3 forwarA(
+        .data_in(), 
+        .select(), 
+        .out()
+        );
+
 
     //Pipeline registros 
     IF_ID PipelineRegisto1(

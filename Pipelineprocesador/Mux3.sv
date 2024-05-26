@@ -1,4 +1,7 @@
-module Mux3(input [2:0] data_in, input [1:0] select, output reg out);
+module Mux3(
+    input [2:0] data_in, 
+    input [1:0] select, 
+    output reg out);
 
 always @* begin
     case (select)
