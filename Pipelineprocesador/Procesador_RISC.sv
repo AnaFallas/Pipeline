@@ -15,6 +15,7 @@
 //Archivos nuevos
 `include "IF_ID.sv"
 `include "ID_EX.sv"
+`include "EX_MEM.sv"
 
 
 module Procesador_RISC;
@@ -51,6 +52,11 @@ module Procesador_RISC;
     logic reg_data_2_ex[63:0];
     logic output_sign_extend_ex[63:0];
     logic instruction_ex[31:0];
+
+//Variables para registro EX/MEM
+    logic output_alu_ex[63:0];
+    logic output_alu_mem[63:0];
+    logic instruction_mem[31:0];
 
 
 
@@ -130,9 +136,8 @@ module Procesador_RISC;
     Alu alu1(
         reg_data_1, 
         output_alu_multiplexor, 
-        Alu_Op,
-        //alu_opcode, 
-        output_alu, 
+        Alu_Op, 
+        output_alu_ex, 
         zero_alu
         );
    
@@ -211,7 +216,32 @@ module Procesador_RISC;
         .rd_out(instruction_ex[11:7]),
         .immediate_out(output_sign_extend_ex)
     );
+    EX_MEM PipelineRegistro3(
+        .clk(clk),
+        .reset(),//pa despues
 
+    // Señales de entrada, control
+        .RegWrite(),
+        .MemtoReg(),
+        .MemWrite(),
+
+    //Datos de entrada
+        .AluResult(output_alu_ex),
+        .Datain(),
+        .Rd_in(instruction_ex[11:7]),
+
+    // Señales de salida
+        .RegWrite_Out(),
+        .MemtoReg_Out(),
+        .MemWrite_Out(),
+
+    //datos de salida 
+        .AluOut(output_alu_mem),
+        .DataOut(),
+        .Rd_out(instruction_mem[11:7])
+    );
+
+    
 
 
 
