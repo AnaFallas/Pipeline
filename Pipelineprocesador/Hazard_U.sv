@@ -1,9 +1,9 @@
 module Hazard_U(
-    input logic [4:0] R_d,
+    input logic [4:0] R_d, //direccion de destino
     input logic MemRead,
-    input logic [31:0] Instruction, 
+    input logic [31:0] Instruction, //instrucción completa de la que se obtiene rs1 y rs2
 
-    output logic SignalPC
+    output logic SignalPC//desabilita el PC para que no cambie, deshabilita el registro IF/ID para que mantenga la instrucción se usa como control del mux 
 );
   
 initial begin

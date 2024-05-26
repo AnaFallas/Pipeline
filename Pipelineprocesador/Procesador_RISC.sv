@@ -287,13 +287,13 @@ module Procesador_RISC;
         .forwardB()     
     );
     Hazard Unidad_de_Hazards(
-        .R_d(),
+        .R_d(instruction_ex[11:7]),
         .MemRead(),
-        .Instruction(), 
+        .Instruction(instruction_id), 
         
-        .SignalPC()
+        .SignalPC()//revisar el pc
     );
-
+//Falta: La unidad de control, poner los mux de 3 y 2 en el execute, copiar el reset, la unidad de branch  
     initial begin
         $dumpfile("Procesador_RISC.vcd");
         $dumpvars(5, Procesador_RISC);
