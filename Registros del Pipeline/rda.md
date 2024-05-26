@@ -64,30 +64,51 @@ always_ff @(posedge clk) begin
         Rg_AluOp_Out <= 2'b00;
 
      // Inicializar los datos a cero en caso de reset
-        Rg_ALUOut  <= 64'b0;
-        Rg_DatOut <= 64'b0;
+        Rg_Rs1Out <= 64'b0;
+        Rg_Rs2Out <= 64'b0;
         Rg_Rd_out  <= 5'b0;
+        Rg_Rs1AD_out <= 5'b0;
+        Rg_Rs2AD_out <= 5'b0;
+        Rg_SignExtendOut <= 64'b0;
+
 
     end else begin 
     //valores de control a la salida
+        Rg_AluSrc_Out <= AluSrc ;
         Rg_RegWrite_Out <= RegWrite;
         Rg_MemtoReg_Out <= MemtoReg;
+
         Rg_MemWrite_Out <= MemWrite;
+        Rg_MemRead_Out <= MemRead;
+        Rg_AluOp_Out <=  Aluop;
 
     //valores de datos a la salida
-        Rg_ALUOut  <= AluResult;
-        Rg_DatOut <= Datain;
+        Rg_Rs1Out  <= Rs1;
+        Rg_Rs2Out<= Rs2;
         Rg_Rd_out <= Rd_in;
+        Rg_Rs1AD_out <= Rs1AD_in;
+        Rg_Rs2AD_out <= Rs2AD_in;
+        Rg_SignExtendOut <= SignExtend;
+
 
     end
 
     end
     //señales
+    assign AluSrc_Out = Rg_AluSrc_Out ;
     assign RegWrite_Out = Rg_RegWrite_Out;
     assign MemtoReg_Out = Rg_MemtoReg_Out;
+
     assign MemWrite_Out = Rg_MemWrite_Out;
+    assign MemRead_Out = Rg_MemRead_Out;
+    assign AluOp_Out = Rg_AluOp_Out;
+    
     //datos
-    assign AluOut = Rg_ALUOut;
-    assign DataOut = Rg_DatOut;
-    assign Rd_out= Rg_Rd_out;
+    assign Rs1Out = Rg_Rs1Out;
+    assign Rs2Out = Rg_Rs2Out;
+    assign Rd_out = Rg_Rd_out;
+
+    assign Rs1AD_out= Rg_Rs1AD_out;
+    assign Rs2AD_out= Rg_Rs2AD_out;
+    assign SignExtendOut= Rg_SignExtendOut;
 endmodule
