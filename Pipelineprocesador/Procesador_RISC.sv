@@ -14,6 +14,7 @@
 `include "SumaC2.sv"
 //Archivos nuevos
 `include "IF_ID.sv"
+`include "ID_EX.sv"
 
 
 module Procesador_RISC;
@@ -36,11 +37,22 @@ module Procesador_RISC;
     wire [4:0] output_register_bank_multiplexor;
 
     wire zero_alu;
-//Variable para registro IF/ID
+//Variables para registro IF/ID
     logic instruction_fetch[31:0];
     logic instruction_id[31:0];
     logic fetch_pc[63:0];
     logic id_pc[63:0];
+//Variables para registro ID/EX
+    logic reg_data_1_id[63:0];
+    logic reg_data_2_id[63:0];
+    logic output_sign_extend_id[63:0];
+
+    logic reg_data_1_ex[63:0];
+    logic reg_data_2_ex[63:0];
+    logic output_sign_extend_ex[63:0];
+    logic instruction_ex[31:0];
+
+
 
     //wire [1:0] alu_opcode;
     wire [63:0] output_pc_adder, output_data_memory, output_alu, reg_data_1, reg_data_2,output_alu_multiplexor, input_data_register, output_sign_extend, output_shift_unit, output_shift_unit_adder;
@@ -92,15 +104,23 @@ module Procesador_RISC;
          
 
     RegisterBank register_bank(
-        instruction[19:15], 
-        instruction[24:20], 
-        instruction[11:7], 
-        input_data_register, 
+        instruction_id[19:15], 
+        instruction_id[24:20], 
+        instruction_id[11:7], 
+
+        input_data_register, //nuevo dato despues de un sw o lw
         clk, 
         reg_write, 
-        reg_data_1, 
-        reg_data_2
+        reg_data_1_id, 
+        reg_data_2_id
         );
+
+     immgen GenImm(
+        instruction,
+        ImmGen,
+        output_sign_extend_id
+       // output_sign_extend
+    );
     Multiplexor alu_multiplexor(
         reg_data_2, 
         output_sign_extend, 
@@ -115,12 +135,9 @@ module Procesador_RISC;
         output_alu, 
         zero_alu
         );
-    immgen GenImm(
-        instruction,
-        ImmGen,
-        output_sign_extend
-    );
+   
     
+    //logica del branch
     ShiftUnit shift_unit(
         output_sign_extend, 
         output_shift_unit
@@ -164,7 +181,36 @@ module Procesador_RISC;
         .instruction_out(instruction_id),
         .out_pc(id_pc)
     );
+    ID_EX PipelineRegistro2(
+        .clk(clk),
+        .rst(),//pa despues
+        .AluSrc_in(),//control
+        .MemtoReg_in(),
+        .RegWrite_in(),
+        .MemRead_in(),
+        .MemWrite_in(),
+        .Aluop_in(),//control
+        .rs1Data_in(reg_data_1_id),//registerbanck
+        .rs2Data_in(reg_data_2_id),
+        .rs_in(instruction_id[19:15]),
+        .rt_in(instruction_id[24:20]),
+        .rd_in(instruction_id[11:7]),
+        .immediate_in(output_sign_extend_id),
 
+
+        .AluSrc_out(),
+        .MemtoReg_out(),
+        .RegWrite_out(),
+        .MemRead_out(),
+        .MemWrite_out(),
+        .Aluop_out(),
+        .rs1Data_out(reg_data_1_ex),
+        .rs2Data_out(reg_data_2_ex),
+        .rs_out(instruction_ex[19:15]),
+        .rt_out(instruction_ex[24:20]),
+        .rd_out(instruction_ex[11:7]),
+        .immediate_out(output_sign_extend_ex)
+    );
 
 
 
