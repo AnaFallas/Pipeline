@@ -117,9 +117,7 @@ module Procesador_RISC;
         Alu_Op, 
         ImmGen
          );
-
          
-
     RegisterBank register_bank(
         instruction_id[19:15], 
         instruction_id[24:20], 
