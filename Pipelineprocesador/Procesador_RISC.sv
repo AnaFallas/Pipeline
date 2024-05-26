@@ -80,6 +80,12 @@ module Procesador_RISC;
     logic output_data_memory_wb[63:0];
     logic output_alu_wb[63:0];
     logic instruction_wb[31:0];
+
+    logic resultWb[63:0];//mux wb
+    logic selec_forwardA[1:0];
+    logic selec_forwardB[1:0];
+    logic result_forwardA[63:0];
+    logic result_forwardB[63:0];
 //Hay que revisar porque hay señales que ya no se usan
     wire [63:0] output_pc_adder, output_data_memory, output_alu, reg_data_1, reg_data_2,output_alu_multiplexor, input_data_register, output_sign_extend, output_shift_unit, output_shift_unit_adder;
 
@@ -148,13 +154,13 @@ module Procesador_RISC;
         output_alu_multiplexor
         );
     Alu alu1(
-        reg_data_1, 
-        output_alu_multiplexor, 
-        AluControl_id, 
-        output_alu_ex, 
-        zero_alu
+        .A(result_forwardA), 
+        .B(result_forwardB),
+        .ALU_Sel(AluControl_ex),
+        .ALU_Out(output_alu_ex),
+        .coutfin(), //revisar 
+        .z() //logica del branch
         );
-   
     
     //logica del branch
     ShiftUnit shift_unit(
@@ -175,7 +181,6 @@ module Procesador_RISC;
         newpc
         );
 
-    
     DataMemory data_memory(
         output_alu, 
         reg_data_2, 
@@ -191,10 +196,19 @@ module Procesador_RISC;
         input_data_register
         );
     //MUX del execute 
-    Mux3 forwarA(
-        .data_in(), 
-        .select(), 
-        .out()
+    Mux3 forwardA(  
+        .a(reg_data_1_ex),
+        .b(resultWb),    
+        .c(output_alu_mem),
+        .select(selec_forwardA),    
+        .result(result_forwardA)
+        );
+     Mux3 forwardB(  
+        .a(reg_data_2_ex),
+        .b(resultWb),    
+        .c(output_alu_mem),
+        .select(selec_forwardB),    
+        .result(result_forwardB)
         );
 
 
@@ -278,17 +292,17 @@ module Procesador_RISC;
         .Rd_out(instruction_wb[11:7])
     );
     //Unidades de control de hazards
-    forwardunit Unidad_de_adelantamiento(
+    forwardunit Unidad_de_adelantamiento(//listo
         .Registro1(instruction_ex[19:15]),       
         .Registro2(instruction_ex[24:20]),       
         .Rd_execute(instruction_mem[11:7]),      
         .Rd_writeback(instruction_wb[11:7]),    
     
-        .ex_regwrite(),//control           
-        .wb_regwrite(),           
+        .ex_regwrite(RegWrite_ex),//control           
+        .wb_regwrite(RegWrite_wb),           
     
-        .forwardA(),   //Seleccion de los mux     
-        .forwardB()     
+        .forwardA(selec_forwardA),   //Seleccion de los mux     
+        .forwardB(selec_forwardB)     
     );
     Hazard Unidad_de_Hazards(
         .R_d(instruction_ex[11:7]),
@@ -297,7 +311,7 @@ module Procesador_RISC;
         
         .SignalPC()//revisar el pc
     );
-//Falta: La unidad de control, poner los mux de 3 y 2 en el execute, copiar el reset, la unidad de branch  
+//Falta: , poner los mux de 3 y 2 en el execute, copiar el reset, la unidad de branch  
     initial begin
         $dumpfile("Procesador_RISC.vcd");
         $dumpvars(5, Procesador_RISC);
