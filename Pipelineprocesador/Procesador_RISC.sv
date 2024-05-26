@@ -286,6 +286,13 @@ module Procesador_RISC;
         .forwardA(),   //Seleccion de los mux     
         .forwardB()     
     );
+    Hazard Unidad_de_Hazards(
+        .R_d(),
+        .MemRead(),
+        .Instruction(), 
+        
+        .SignalPC()
+    );
 
     initial begin
         $dumpfile("Procesador_RISC.vcd");
