@@ -270,15 +270,15 @@ module Procesador_RISC;
         .clk(clk),
         .reset(),//pa despues
     // Señales de entrada
-        .RegWrite(),
-        .MemtoReg(),
+        .RegWrite(RegWrite_mem),
+        .MemtoReg(MemtoReg_mem),
     //Datos de entrada
         .Dataout_Memory(output_data_memory_mem),
         .AluOut_in(output_alu_mem),
         .Rd_in(instruction_mem[11:7]),
     // Señales de salida
-        .RegWrite_Out(),
-        .MemtoReg_Out(),
+        .RegWrite_Out(RegWrite_wb),
+        .MemtoReg_Out(MemtoReg_wb),
     //datos de salida 
         .DataOut(output_data_memory_wb),
         .AluOut(output_alu_wb),
