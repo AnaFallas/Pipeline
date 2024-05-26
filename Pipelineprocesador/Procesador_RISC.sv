@@ -23,21 +23,12 @@
 
 
 module Procesador_RISC;
-
     wire clk;
     reg pc_reset;
-   //wire [63:0] oldpc;
     wire [63:0] newpc;//veremos
-   // wire [31:0] instruction;
     wire reg_to_loc;
     //wire branch;
-    //wire mem_read;
-   // wire mem_to_reg;
-   // wire [1:0] Alu_Op;
     wire [1:0] ImmGen;
-   // wire mem_write;
-   // wire alu_src;
-   // wire reg_write;
     wire muxShift;
     wire [4:0] output_register_bank_multiplexor;
 //Variables de control
@@ -48,18 +39,18 @@ module Procesador_RISC;
     logig AluControl_id[2:0];
     logic AluSRC_id;
     logic MemRead_id;
-
+//---------------------------------
     logic RegWrite_ex;
     logic MemtoReg_ex;
     logic MemWrite_ex;
     logic MemRead_ex;
     logig AluControl_ex[2:0];
     logic AluSRC_ex;
-
+//---------------------------------
     logic RegWrite_mem;
     logic MemtoReg_mem;
     logic MemWrite_mem;
-
+//---------------------------------
     logic RegWrite_wb;
     logic MemtoReg_wb;
 
@@ -78,7 +69,6 @@ module Procesador_RISC;
     logic reg_data_2_ex[63:0];
     logic output_sign_extend_ex[63:0];
     logic instruction_ex[31:0];
-
 //Variables para registro EX/MEM
     logic output_alu_ex[63:0];
     logic output_alu_mem[63:0];
@@ -89,11 +79,7 @@ module Procesador_RISC;
     logic output_data_memory_wb[63:0];
     logic output_alu_wb[63:0];
     logic instruction_wb[31:0];
-//Variables para Hazards
-
-
-
-    //wire [1:0] alu_opcode;
+//Hay que revisar porque hay señales que ya no se usan
     wire [63:0] output_pc_adder, output_data_memory, output_alu, reg_data_1, reg_data_2,output_alu_multiplexor, input_data_register, output_sign_extend, output_shift_unit, output_shift_unit_adder;
 
     initial begin
@@ -121,8 +107,6 @@ module Procesador_RISC;
     InstructionMemory InstructionMemory1(//LISTO
         .adr({2'b00,oldpc[63:2]}),
         .Instruction(instruction_fetch)
-        //{2'b00,oldpc[63:2]}, 
-        //instruction
         );
 
     ControlUnit ControlUnit1(
@@ -181,14 +165,16 @@ module Procesador_RISC;
         output_shift_unit, 
         output_shift_unit_adder
         );
-
     assign muxShift =   zero_alu & branch;
+
     Multiplexor shift_unit_multiplexor(
         output_pc_adder, 
         output_shift_unit_adder, 
         muxShift, 
         newpc
         );
+
+    
     DataMemory data_memory(
         output_alu, 
         reg_data_2, 
@@ -252,7 +238,6 @@ module Procesador_RISC;
         .RegWrite(RegWrite_ex),
         .MemtoReg(MemtoReg_ex),
         .MemWrite(MemWrite_ex),
-        //memread???
     //Datos de entrada
         .AluResult(output_alu_ex),
         .Datain(),//MUX
@@ -299,7 +284,7 @@ module Procesador_RISC;
     );
     Hazard Unidad_de_Hazards(
         .R_d(instruction_ex[11:7]),
-        .MemRead(),
+        .MemRead(MemRead_ex),
         .Instruction(instruction_id), 
         
         .SignalPC()//revisar el pc
