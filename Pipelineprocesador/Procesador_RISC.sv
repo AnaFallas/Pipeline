@@ -11,7 +11,6 @@
 `include "DataMemory.sv"
 `include "Multiplexor.sv"
 `include "immgen.sv"
-//`include "AluControl.sv"
 `include "SumaC2.sv"
 //Archivos nuevos
 `include "IF_ID.sv"
@@ -21,8 +20,8 @@ module Procesador_RISC;
 
     wire clk;
     reg pc_reset;
-    wire [63:0] oldpc;
-    wire [63:0] newpc;
+   //wire [63:0] oldpc;
+    wire [63:0] newpc;//veremos
    // wire [31:0] instruction;
     wire reg_to_loc;
     wire branch;
@@ -59,7 +58,7 @@ module Procesador_RISC;
     pc pc1(clk,
      pc_reset, 
      newpc, 
-     oldpc
+     fetch_pc
      );
    //Quite este adder porque es parte de la lógica del branch que no tenemos todavía 
    /* Adder adder1(
@@ -166,7 +165,7 @@ module Procesador_RISC;
         .out_pc(id_pc)
     );
 
-    
+
 
 
 
