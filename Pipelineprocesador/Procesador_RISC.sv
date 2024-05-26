@@ -18,6 +18,8 @@
 `include "EX_MEM.sv"
 `include "MEM_WB.sv"
 `include "MEM_WB.sv"
+`include "forwardunit.sv"
+`include "Hazard_U.sv"
 
 
 module Procesador_RISC;
@@ -65,6 +67,7 @@ module Procesador_RISC;
     logic output_data_memory_wb[63:0];
     logic output_alu_wb[63:0];
     logic instruction_wb[31:0];
+//Variables para Hazards
 
 
 
@@ -271,6 +274,18 @@ module Procesador_RISC;
         .Rd_out(instruction_wb[11:7])
     );
     //Unidades de control de hazards
+    forwardunit Unidad_de_adelantamiento(
+        .Registro1(instruction_ex[19:15]),       
+        .Registro2(instruction_ex[24:20]),       
+        .Rd_execute(instruction_mem[11:7]),      
+        .Rd_writeback(instruction_wb[11:7]),    
+    
+        .ex_regwrite(),//control           
+        .wb_regwrite(),           
+    
+        .forwardA(),   //Seleccion de los mux     
+        .forwardB()     
+    );
 
     initial begin
         $dumpfile("Procesador_RISC.vcd");
