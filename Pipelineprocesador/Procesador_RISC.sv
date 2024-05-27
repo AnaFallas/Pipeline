@@ -17,7 +17,6 @@
 `include "ID_EX.sv"
 `include "EX_MEM.sv"
 `include "MEM_WB.sv"
-`include "MEM_WB.sv"
 `include "forwardunit.sv"
 `include "Hazard_U.sv"
 `include "Mux3.sv"
