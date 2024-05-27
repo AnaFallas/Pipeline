@@ -24,7 +24,7 @@ module Hazard_U_tb;
 
     // Inicialización
     initial begin
-        $dumpfile("ID_EX.vcd");
+        $dumpfile("Hazard_U.vcd");
         $dumpvars(5, uut);
         // Inicializar señales
         R_d = 5'b00000;
