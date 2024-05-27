@@ -9,7 +9,7 @@ module EX_MEM (
     input logic MemRead,
 
     //Datos de entrada
-    input logic [63:0] AluResult,  ,
+    input logic [63:0] AluResult,
     input logic [63:0] Datain,
     input logic [4:0] Rd_in,
 
