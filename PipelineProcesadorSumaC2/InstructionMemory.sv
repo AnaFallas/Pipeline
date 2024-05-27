@@ -26,7 +26,7 @@ module InstructionMemory #(parameter size = 64) (
         Memory[14] = 8'h00;
         Memory[15] = 8'hF8;*/
 
-        /*Memory[0] = 8'hB3;
+        Memory[0] = 8'hB3;
         Memory[1] = 8'h00;
         Memory[2] = 8'h21;
         Memory[3] = 8'h00;
@@ -44,14 +44,9 @@ module InstructionMemory #(parameter size = 64) (
         Memory[12] = 8'hE3;
         Memory[13] = 8'h0A;
         Memory[14] = 8'h31;
-        Memory[15] = 8'hFE;*/
+        Memory[15] = 8'hFE;
 
     
-
-        Memory[0] = 8'h33;
-        Memory[1] = 8'hf2;
-        Memory[2] = 8'h62;
-        Memory[4] = 8'h00;
     end
 
     assign Instruction[7:0] = Memory[adr + 0]; 
