@@ -1,7 +1,7 @@
 module DataMemory (
     input logic [63:0] adr,     // dirección de Memoria
     input logic [63:0] datain,  // contenido dirección de Memoria
-    input logic w, r,
+    input logic w , r,
     input logic clk,
     output logic [63:0] dataout
 );
