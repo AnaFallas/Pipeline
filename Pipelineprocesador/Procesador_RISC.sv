@@ -35,7 +35,7 @@ module Procesador_RISC;
     logic RegWrite_id;
     logic MemtoReg_id;
     logic MemWrite_id;
-    logic [2:0] AluControl_id;
+    logic [1:0] AluControl_id;
     logic AluSRC_id;
     logic MemRead_id;
 //---------------------------------
@@ -43,7 +43,7 @@ module Procesador_RISC;
     logic MemtoReg_ex;
     logic MemWrite_ex;
     logic MemRead_ex;
-    logic [2:0] AluControl_ex;
+    logic [1:0] AluControl_ex;
     logic AluSRC_ex;
 //---------------------------------
     logic RegWrite_mem;
