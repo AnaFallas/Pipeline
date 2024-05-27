@@ -71,9 +71,12 @@ module ID_EX_tb;
 
     // Inicialización
     initial begin
+        $dumpfile("ID_EX.vcd");
+        $dumpvars(5, uut);
+
         // Inicializar señales
-        clk = 0;
-        rst = 1;
+        clk = 1;
+        reset = 0;
         AluSrc_in = 0;
         MemtoReg_in = 0;
         RegWrite_in = 0;

@@ -43,9 +43,12 @@ module MEM_WB_tb;
 
     // Inicialización
     initial begin
+        /$dumpfile("MEM_WB.vcd");
+        $dumpvars(5, uut);
+
         // Inicializar señales
-        clk = 0;
-        reset = 1;
+        clk = 1;
+        reset = 0;
         RegWrite = 0;
         MemtoReg = 0;
         Dataout_Memory = 64'h0000000000000000;

@@ -35,9 +35,12 @@ module IF_ID_tb;
 
     // Inicialización
     initial begin
+        $dumpfile("IF_ID.vcd");
+        $dumpvars(5, uut);
+
         // Inicializar señales
-        clk = 0;
-        rst = 1;
+        clk = 1;
+        reset = 0;
         instruction_in = 32'h00000000;
         pc = 64'h0000000000000000;
         PCSrcD_Control = 0;
@@ -63,7 +66,7 @@ module IF_ID_tb;
         $display("instruction_out = %h", instruction_out);
         $display("out_pc = %h", out_pc);
 
-        
+
 
         // Finalizar simulación
         $finish;
