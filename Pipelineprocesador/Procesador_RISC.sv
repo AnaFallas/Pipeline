@@ -237,7 +237,7 @@ module Procesador_RISC;
         .instruction_in(instruction_fetch),
         .pc(fetch_pc),
         .PCSrcD_Control(enable_stall),
-        .flush(),//hazard tampoco está
+        .flush(and_branch),//resultado del and para el branch
         .instruction_out(instruction_id),
         .out_pc(id_pc)
     );
