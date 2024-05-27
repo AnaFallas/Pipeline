@@ -12,7 +12,7 @@ module EX_MEM_tb;
     logic RegWrite;
     logic MemtoReg;
     logic MemWrite;
-    logic MemRead;
+
     logic [63:0] AluResult;
     logic [63:0] Datain;
     logic [4:0] Rd_in;
@@ -21,7 +21,7 @@ module EX_MEM_tb;
     logic RegWrite_Out;
     logic MemtoReg_Out;
     logic MemWrite_Out;
-    logic MemRead_out;
+  
     logic [63:0] AluOut;
     logic [63:0] DataOut;
     logic [4:0] Rd_out;
@@ -30,17 +30,20 @@ module EX_MEM_tb;
     EX_MEM uut (
         .clk(clk),
         .reset(reset),
+
         .RegWrite(RegWrite),
         .MemtoReg(MemtoReg),
         .MemWrite(MemWrite),
-        .MemRead(MemRead),
+     
         .AluResult(AluResult),
         .Datain(Datain),
         .Rd_in(Rd_in),
+
         .RegWrite_Out(RegWrite_Out),
         .MemtoReg_Out(MemtoReg_Out),
         .MemWrite_Out(MemWrite_Out),
-        .MemRead_out(MemRead_out),
+       
+
         .AluOut(AluOut),
         .DataOut(DataOut),
         .Rd_out(Rd_out)
@@ -54,10 +57,11 @@ module EX_MEM_tb;
         // Inicializar señales
         clk = 0;
         reset = 1;
+
         RegWrite = 0;
         MemtoReg = 0;
         MemWrite = 0;
-        MemRead = 0;
+ 
         AluResult = 64'h0000000000000000;
         Datain = 64'h0000000000000000;
         Rd_in = 5'b00000;
@@ -73,7 +77,8 @@ module EX_MEM_tb;
         $display("RegWrite_Out = %b", RegWrite_Out);
         $display("MemtoReg_Out = %b", MemtoReg_Out);
         $display("MemWrite_Out = %b", MemWrite_Out);
-        $display("MemRead_out = %b", MemRead_out);
+       
+       
         $display("AluOut = %h", AluOut);
         $display("DataOut = %h", DataOut);
         $display("Rd_out = %h", Rd_out);
