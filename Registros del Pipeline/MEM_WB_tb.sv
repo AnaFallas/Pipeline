@@ -43,7 +43,7 @@ module MEM_WB_tb;
 
     // Inicialización
     initial begin
-        /$dumpfile("MEM_WB.vcd");
+        $dumpfile("MEM_WB.vcd");
         $dumpvars(5, uut);
 
         // Inicializar señales
