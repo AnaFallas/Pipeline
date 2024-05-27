@@ -1,7 +1,7 @@
 `timescale 1ns/1ns
 `include "Hazard_U.sv"
 
-module Hazard_U_tb;
+module hazard_U_tb;
 
     // Parámetros de simulación
     localparam CLK_PERIOD = 10; // Período de reloj en unidades de tiempo
