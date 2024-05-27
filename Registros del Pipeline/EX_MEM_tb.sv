@@ -54,6 +54,9 @@ module EX_MEM_tb;
 
     // Inicialización
     initial begin
+        $dumpfile("EX_MEM.vcd");
+        $dumpvars(5, uut);
+        
         // Inicializar señales
         clk = 0;
         reset = 1;
@@ -84,8 +87,7 @@ module EX_MEM_tb;
         $display("Rd_out = %h", Rd_out);
 
         // Finalizar simulación
-        $dumpfile("EX_MEM.vcd");
-        $dumpvars(5, uut);
+        
         $finish;
     end
 
