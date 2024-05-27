@@ -1,5 +1,5 @@
 `timescale 1ns/1ns
-`include "EX_MEN.sv"
+`include "EX_MEM.sv"
 
 module EX_MEM_tb;
 
