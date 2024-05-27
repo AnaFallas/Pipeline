@@ -68,24 +68,24 @@ module Procesador_RISC;
     logic output_sign_extend_ex[63:0];
     logic instruction_ex[31:0];
 //Variables para registro EX/MEM
-    logic output_alu_ex[63:0];
-    logic output_alu_mem[63:0];
-    logic instruction_mem[31:0];
+    logic [63:0] output_alu_ex;
+    logic [63:0] output_alu_mem;
+    logic [31:0] instruction_mem;
 
 //Variables para registro MEM/WB
-    logic output_data_memory_mem[63:0];
-    logic output_data_memory_wb[63:0];
-    logic output_alu_wb[63:0];
-    logic instruction_wb[31:0];
+    logic [63:0] output_data_memory_mem;
+    logic [63:0] output_data_memory_wb;
+    logic [63:0] output_alu_wb;
+    logic [31:0] instruction_wb;
 
-    logic resultWb[63:0];//mux wb
+    logic [63:0] resultWb;//mux wb
 //Variables para hazards 
-    logic selec_forwardA[1:0];
-    logic selec_forwardB[1:0];
-    logic result_forwardA[63:0];
-    logic result_forwardB[63:0];
-    logic entrada_B_ALU[63:0];
-    logic result_forwardB_mem[63:0];
+    logic [1:0] selec_forwardA;
+    logic [1:0] selec_forwardB;
+    logic [63:0] result_forwardA;
+    logic [63:0] result_forwardB;
+    logic [63:0] entrada_B_ALU;
+    logic [63:0] result_forwardB_mem;
     logic enable_stall;
     logic comparador_result;
 
