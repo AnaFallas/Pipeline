@@ -21,6 +21,8 @@
 `include "forwardunit.sv"
 `include "Hazard_U.sv"
 `include "Mux3.sv"
+`include "comparador.sv"
+
 
 
 module Procesador_RISC;
@@ -86,6 +88,8 @@ module Procesador_RISC;
     logic result_forwardB[63:0];
     logic entrada_B_ALU[63:0];
     logic result_forwardB_mem[63:0];
+    logic enable_stall;
+    logic comparador_result;
 //Hay que revisar porque hay señales que ya no se usan
     wire [63:0] output_pc_adder, output_data_memory, output_alu, reg_data_1, reg_data_2,output_alu_multiplexor, input_data_register, output_sign_extend, output_shift_unit, output_shift_unit_adder;
 
@@ -110,7 +114,7 @@ module Procesador_RISC;
         .Instruction(instruction_fetch)
         );
 
-    ControlUnit ControlUnit1(
+    ControlUnit ControlUnit1(//Listo sin lo de los mux
         .OpCode(instruction_id[6:0]),
         .AluR(instruction_id[14:12]),
 
@@ -129,9 +133,9 @@ module Procesador_RISC;
         instruction_id[24:20], 
         instruction_id[11:7], 
 
-        input_data_register, //nuevo dato despues de un sw o lw
+        resultWb, //nuevo dato despues de un sw o lw
         clk, 
-        reg_write, //Aqui va el de WB
+        RegWrite_wb, 
         reg_data_1_id, 
         reg_data_2_id
         );
@@ -143,10 +147,19 @@ module Procesador_RISC;
     );
    
 //logica del branch
+    comparador branch_comparador(
+        .dato_rs1(reg_data_1_id),
+        .dato_rs2(reg_data_2_id),
+        .resultado(comparador_result)
+        );
+
+    assing and_branch = comparador_result & branch_id;
+
     ShiftUnit shift_unit(
         output_sign_extend, 
         output_shift_unit
         );
+
     Adder shift_unit_adder(
         oldpc, 
         output_shift_unit, 
@@ -160,12 +173,12 @@ module Procesador_RISC;
         output_pc_adder
         );*/ 
 
-    Multiplexor shift_unit_multiplexor(
+    /*Multiplexor shift_unit_multiplexor(//Utilizar para el branch 
         output_pc_adder, 
         output_shift_unit_adder, 
         muxShift, 
         newpc
-        );
+        );*/
 //fin logica branch 
 
 //Etapa del execute 
@@ -205,21 +218,21 @@ module Procesador_RISC;
         clk, 
         output_data_memory_mem
         );
-//Etapa del WriteBack
+//Mux de la etapa de WB
     Multiplexor data_memory_multiplexor(
-        output_alu, 
-        output_data_memory, 
-        mem_to_reg, 
-        input_data_register
+        .a(output_data_memory_wb),
+        .b(output_alu_wb),
+        .select(MemtoReg_wb),
+        .result(resultWb)
         );
 
-    //Pipeline registros intermedios
+    //Pipeline registros intermedios Listo
     IF_ID PipelineRegisto1(
         .clk(clk),
         .rst(pc_reset),
         .instruction_in(instruction_fetch),
         .pc(fetch_pc),
-        .PCSrcD_Control(),//todavía no esta jsjs
+        .PCSrcD_Control(enable_stall),//todavía no esta jsjs
         .flush(),//hazard tampoco está
         .instruction_out(instruction_id),
         .out_pc(id_pc)
@@ -305,12 +318,11 @@ module Procesador_RISC;
         .forwardA(selec_forwardA),   //Seleccion de los mux     
         .forwardB(selec_forwardB)     
     );
-    Hazard Unidad_de_Hazards(
+    Hazard Unidad_de_Hazards(//listo
         .R_d(instruction_ex[11:7]),
         .MemRead(MemRead_ex),
         .Instruction(instruction_id), 
-        
-        .SignalPC()//revisar el pc
+        .SignalPC(enable_stall)//revisar el pc
     );
 //Falta:copiar el reset, la unidad de branch  
     initial begin
