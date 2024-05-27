@@ -89,6 +89,9 @@ module Procesador_RISC;
     logic enable_stall;
     logic comparador_result;
 
+    logic and_branch;
+
+
     wire [63:0] output_pc_adder, output_shift_unit, output_shift_unit_adder;
 
     initial begin
