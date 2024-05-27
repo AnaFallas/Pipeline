@@ -91,8 +91,8 @@ module Procesador_RISC;
     logic result_forwardB_mem[63:0];
     logic enable_stall;
     logic comparador_result;
-//Hay que revisar porque hay señales que ya no se usan
-    wire [63:0] output_pc_adder, output_data_memory, output_alu, reg_data_1, reg_data_2,output_alu_multiplexor, input_data_register, output_sign_extend, output_shift_unit, output_shift_unit_adder;
+
+    wire [63:0] output_pc_adder, output_shift_unit, output_shift_unit_adder;
 
     initial begin
         pc_reset = 1;
@@ -144,7 +144,6 @@ module Procesador_RISC;
         reg_data_1_id, 
         reg_data_2_id
         );
-//Pueba
 
      immgen GenImm(//listo
         instruction_id,
@@ -152,7 +151,7 @@ module Procesador_RISC;
         output_sign_extend_id
     );
    
-//logica del branch
+//logica del branch + parte de la logica del pc
     comparador branch_comparador(//listo
         .dato_rs1(reg_data_1_id),
         .dato_rs2(reg_data_2_id),
@@ -184,7 +183,7 @@ module Procesador_RISC;
         and_branch, 
         newpc
         );
-//fin logica branch 
+//fin logica branch + parte de la logica del pc
 
 //Etapa del execute 
     Alu alu1(
@@ -231,7 +230,7 @@ module Procesador_RISC;
         .result(resultWb)
         );
 
-    //Pipeline registros intermedios Listo
+//Pipeline registros intermedios
     IF_ID PipelineRegisto1(
         .clk(clk),
         .rst(),
@@ -331,7 +330,7 @@ module Procesador_RISC;
         .Instruction(instruction_id), 
         .SignalPC(enable_stall)//revisar el pc
     );
-//Falta:copiar el reset 
+
     initial begin
         $dumpfile("Procesador_RISC.vcd");
         $dumpvars(5, Procesador_RISC);
