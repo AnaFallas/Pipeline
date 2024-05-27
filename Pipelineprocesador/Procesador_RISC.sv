@@ -53,6 +53,7 @@ module Procesador_RISC;
     logic RegWrite_mem;
     logic MemtoReg_mem;
     logic MemWrite_mem;
+    logic MemRead_mem;
 //---------------------------------
     logic RegWrite_wb;
     logic MemtoReg_wb;
@@ -214,7 +215,7 @@ module Procesador_RISC;
         .adr(output_alu_mem),     
         .datain(result_forwardB_mem),  
         .w(MemWrite_mem),
-        .r(),//VERO
+        .r(MemRead_mem),
         .clk(clk),
         .dataout(output_data_memory_mem)
         );
@@ -274,6 +275,7 @@ module Procesador_RISC;
         .RegWrite(RegWrite_ex),
         .MemtoReg(MemtoReg_ex),
         .MemWrite(MemWrite_ex),
+        .MemRead(MemRead_ex),
     //Datos de entrada
         .AluResult(output_alu_ex),
         .Datain(result_forwardB),//MUX
@@ -282,6 +284,7 @@ module Procesador_RISC;
         .RegWrite_Out(RegWrite_mem),
         .MemtoReg_Out(MemtoReg_mem),
         .MemWrite_Out(MemWrite_mem),
+        .MemRead_out(MemRead_mem);
     //datos de salida 
         .AluOut(output_alu_mem),
         .DataOut(result_forwardB_mem),//mux
@@ -324,7 +327,7 @@ module Procesador_RISC;
         .Instruction(instruction_id), 
         .SignalPC(enable_stall)//revisar el pc
     );
-//Falta:copiar el reset, la unidad de branch  
+//Falta:copiar el reset 
     initial begin
         $dumpfile("Procesador_RISC.vcd");
         $dumpvars(5, Procesador_RISC);
