@@ -139,6 +139,7 @@ module Procesador_RISC;
         reg_data_1_id, 
         reg_data_2_id
         );
+//Pueba
 
      immgen GenImm(//listo
         instruction_id,
