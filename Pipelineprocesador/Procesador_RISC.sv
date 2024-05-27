@@ -94,7 +94,8 @@ module Procesador_RISC;
     initial begin
         pc_reset = 1;
         @(posedge clk);
-        @(posedge clk); pc_reset <= 0;
+        @(posedge clk); 
+        pc_reset <= 0;
     end
 
     Clock clock1(
@@ -103,7 +104,7 @@ module Procesador_RISC;
 //Etapa del Instruction Fetch
     pc pc1(
         .clk(clk),
-        .rst(),
+        .rst(pc_reset),
         .en_hold(enable_stall),
         .pc_sig(newpc),
 
@@ -230,7 +231,7 @@ module Procesador_RISC;
 //Pipeline registros intermedios
     IF_ID PipelineRegisto1(
         .clk(clk),
-        .rst(),
+        .rst(pc_reset),
         .instruction_in(instruction_fetch),
         .pc(fetch_pc),
         .PCSrcD_Control(enable_stall),
@@ -240,7 +241,7 @@ module Procesador_RISC;
     );
     ID_EX PipelineRegistro2(
         .clk(clk),
-        .rst(),//pa despues
+        .rst(pc_reset),//pa despues
         .AluSrc_in(AluSRC_id),//control
         .MemtoReg_in(MemtoReg_id),
         .RegWrite_in(RegWrite_id),
@@ -270,7 +271,7 @@ module Procesador_RISC;
     );
     EX_MEM PipelineRegistro3(
         .clk(clk),
-        .reset(),//pa despues
+        .reset(pc_reset),//pa despues
     // Señales de entrada, control
         .RegWrite(RegWrite_ex),
         .MemtoReg(MemtoReg_ex),
@@ -292,7 +293,7 @@ module Procesador_RISC;
     );
     MEM_WB PipelineRegistro4(
         .clk(clk),
-        .reset(),//pa despues
+        .reset(pc_reset),//pa despues
     // Señales de entrada
         .RegWrite(RegWrite_mem),
         .MemtoReg(MemtoReg_mem),
