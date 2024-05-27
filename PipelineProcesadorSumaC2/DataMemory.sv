@@ -8,11 +8,7 @@ module DataMemory (
 
     logic [7:0] MEMO [31:0]; // Tamaño de la memoria ajustado
 
-    initial begin
-        MEMO[0]=20;
-        MEMO[2]=50;
-        MEMO[12]=100;
-    end
+    logic bandera = 1;
     
     assign dataout = (r) ? { 
         MEMO[adr + 7],
@@ -25,6 +21,12 @@ module DataMemory (
         MEMO[adr] }  : 64'bz;
     
     always_ff @(posedge clk) begin
+        if(bandera==0) begin
+            MEMO[0]=20;
+        MEMO[2]=50;
+        MEMO[12]=100;
+        bandera=1;
+        end else begin
         if (w == 1'b1) begin
             { 
             MEMO[adr + 7] ,
@@ -38,6 +40,7 @@ module DataMemory (
             } <= datain;
 
 
+        end
         end
     end
 
