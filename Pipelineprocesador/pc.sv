@@ -7,7 +7,7 @@ module pc (
 );
     always_ff @(posedge clk) begin
         if (rst)begin 
-            asig_pc <= 0;
+            asig_pc <= 64'b0;
         end else if (!en_hold) begin
             asig_pc <= pc_sig;
         end else begin
