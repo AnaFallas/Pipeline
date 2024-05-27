@@ -1,3 +1,6 @@
+`timescale 1ns/1ns
+`include "IF_ID.sv"
+
 module IF_ID_tb;
 
     // Parámetros de simulación
