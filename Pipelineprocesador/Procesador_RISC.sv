@@ -35,7 +35,7 @@ module Procesador_RISC;
     logic RegWrite_id;
     logic MemtoReg_id;
     logic MemWrite_id;
-    logic AluControl_id[2:0];
+    logic [2:0] AluControl_id;
     logic AluSRC_id;
     logic MemRead_id;
 //---------------------------------
@@ -43,7 +43,7 @@ module Procesador_RISC;
     logic MemtoReg_ex;
     logic MemWrite_ex;
     logic MemRead_ex;
-    logic AluControl_ex[2:0];
+    logic [2:0] AluControl_ex;
     logic AluSRC_ex;
 //---------------------------------
     logic RegWrite_mem;
@@ -54,23 +54,23 @@ module Procesador_RISC;
     logic RegWrite_wb;
     logic MemtoReg_wb;
 //Variables para registro IF/ID
-    logic instruction_fetch[31:0];
-    logic instruction_id[31:0];
-    logic fetch_pc[63:0];
-    logic id_pc[63:0];
+    logic [31:0] instruction_fetch;
+    logic [31:0] instruction_id;
+    logic [63:0] fetch_pc;
+    logic [63:0] id_pc;
 //Variables para registro ID/EX
-    logic reg_data_1_id[63:0];
-    logic reg_data_2_id[63:0];
-    logic output_sign_extend_id[63:0];
+    logic [63:0] reg_data_1_id;
+    logic [63:0] reg_data_2_id;
+    logic [63:0] output_sign_extend_id;
 
-    logic reg_data_1_ex[63:0];
-    logic reg_data_2_ex[63:0];
-    logic output_sign_extend_ex[63:0];
-    logic instruction_ex[31:0];
+    logic [63:0] reg_data_1_ex;
+    logic [63:0] reg_data_2_ex;
+    logic [63:0] output_sign_extend_ex;
+    logic [31:0] instruction_ex;
 //Variables para registro EX/MEM
-    logic output_alu_ex[63:0];
-    logic output_alu_mem[63:0];
-    logic instruction_mem[31:0];
+    logic [63:0] output_alu_ex;
+    logic [63:0] output_alu_mem;
+    logic [31:0] instruction_mem;
 
 //Variables para registro MEM/WB
     logic output_data_memory_mem[63:0];
