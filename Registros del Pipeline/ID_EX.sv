@@ -1,12 +1,14 @@
 module ID_EX (
     input logic clk,
     input logic rst,
+    
     input logic AluSrc_in,
     input logic MemtoReg_in,
     input logic RegWrite_in,
     input logic MemRead_in,
     input logic MemWrite_in,
     input logic Aluop_in,
+
     input logic [63:0] rs1Data_in,
     input logic [63:0] rs2Data_in,
     input logic [4:0] rs_in,
