@@ -11,7 +11,7 @@ initial begin
 end
   
 always @(*) begin
-    if (MemRead && ((RD == Instruction[19:15]) || (RD == Instruction[24:20])))
+    if (MemRead && ((R_d == Instruction[19:15]) || (R_d == Instruction[24:20])))
         SignalPC= 1'b1;
     else
         SignalPC= 1'b0;

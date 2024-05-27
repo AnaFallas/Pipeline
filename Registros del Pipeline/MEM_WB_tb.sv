@@ -1,5 +1,5 @@
 `timescale 1ns/1ns
-`include "MEN_WB.sv"
+`include "MEM_WB.sv"
 
 module MEM_WB_tb;
 
@@ -43,7 +43,7 @@ module MEM_WB_tb;
 
     // Inicialización
     initial begin
-        /$dumpfile("MEM_WB.vcd");
+        $dumpfile("MEM_WB.vcd");
         $dumpvars(5, uut);
 
         // Inicializar señales

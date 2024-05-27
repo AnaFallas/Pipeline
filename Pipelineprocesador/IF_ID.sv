@@ -6,8 +6,8 @@ module IF_ID (
     input logic PCSrcD_Control,
     input logic flush,
     output logic [31:0] instruction_out,
-    output logic [63:0] out_pc,
-);
+    output logic [63:0] out_pc
+    );
 
     // Declaramos el registro de pipeline
     logic [31:0] instruction_reg;
@@ -25,7 +25,7 @@ module IF_ID (
 
         end else begin
             pc_reg <= pc;
-            instruction_reg <= instruction_reg
+            instruction_reg <= instruction_reg;
         end
     end
 

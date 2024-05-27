@@ -17,7 +17,7 @@
 `include "ID_EX.sv"
 `include "EX_MEM.sv"
 `include "MEM_WB.sv"
-`include "MEM_WB.sv"
+
 `include "forwardunit.sv"
 `include "Hazard_U.sv"
 `include "Mux3.sv"
@@ -35,7 +35,7 @@ module Procesador_RISC;
     logic RegWrite_id;
     logic MemtoReg_id;
     logic MemWrite_id;
-    logig AluControl_id[2:0];
+    logic AluControl_id[2:0];
     logic AluSRC_id;
     logic MemRead_id;
 //---------------------------------
@@ -43,7 +43,7 @@ module Procesador_RISC;
     logic MemtoReg_ex;
     logic MemWrite_ex;
     logic MemRead_ex;
-    logig AluControl_ex[2:0];
+    logic AluControl_ex[2:0];
     logic AluSRC_ex;
 //---------------------------------
     logic RegWrite_mem;
@@ -88,6 +88,9 @@ module Procesador_RISC;
     logic result_forwardB_mem[63:0];
     logic enable_stall;
     logic comparador_result;
+
+    logic and_branch;
+
 
     wire [63:0] output_pc_adder, output_shift_unit, output_shift_unit_adder;
 
@@ -188,7 +191,7 @@ module Procesador_RISC;
         .A(result_forwardA), 
         .B(entrada_B_ALU),
         .ALU_Sel(AluControl_ex),
-        .ALU_Out(output_alu_ex),
+        .ALU_Out(output_alu_ex)
         );
     
     Mux3 forwardA(  
@@ -285,7 +288,7 @@ module Procesador_RISC;
         .RegWrite_Out(RegWrite_mem),
         .MemtoReg_Out(MemtoReg_mem),
         .MemWrite_Out(MemWrite_mem),
-        .MemRead_out(MemRead_mem);
+        .MemRead_out(MemRead_mem),
     //datos de salida 
         .AluOut(output_alu_mem),
         .DataOut(result_forwardB_mem),//mux
@@ -322,7 +325,7 @@ module Procesador_RISC;
         .forwardA(selec_forwardA),   //Seleccion de los mux     
         .forwardB(selec_forwardB)     
     );
-    Hazard Unidad_de_Hazards(//listo
+    Hazard_U Unidad_de_Hazards(//listo
         .R_d(instruction_ex[11:7]),
         .MemRead(MemRead_ex),
         .Instruction(instruction_id), 
