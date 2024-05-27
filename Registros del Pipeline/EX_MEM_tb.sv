@@ -56,10 +56,10 @@ module EX_MEM_tb;
     initial begin
         $dumpfile("EX_MEM.vcd");
         $dumpvars(5, uut);
-        
+
         // Inicializar señales
-        clk = 0;
-        reset = 1;
+        clk = 1;
+        reset = 0;
 
         RegWrite = 0;
         MemtoReg = 0;
