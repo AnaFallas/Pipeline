@@ -6,7 +6,7 @@ module ID_EX (
     input logic RegWrite_in,
     input logic MemRead_in,
     input logic MemWrite_in,
-    input logic Aluop_in,
+    input logic [1:0] Aluop_in,
     input logic [63:0] rs1Data_in,
     input logic [63:0] rs2Data_in,
     input logic [4:0] rs_in,
@@ -19,7 +19,7 @@ module ID_EX (
     output logic RegWrite_out,
     output logic MemRead_out,
     output logic MemWrite_out,
-    output logic Aluop_out,
+    output logic [1:0] Aluop_out ,
     output logic [63:0] rs1Data_out,
     output logic [63:0] rs2Data_out,
     output logic [4:0] rs_out,
@@ -35,7 +35,7 @@ module ID_EX (
     logic reg_RegWrite;
     logic reg_MemRead;
     logic reg_MemWrite;
-    logic reg_Aluop;
+    logic [1:0] reg_Aluop;
     logic [63:0] reg_rs1Data;
     logic [63:0] reg_rs2Data;
     logic [4:0] reg_rs;
