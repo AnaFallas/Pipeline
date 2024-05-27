@@ -25,7 +25,7 @@ module IF_ID (
 
         end else begin
             pc_reg <= pc;
-            instruction_reg <= instruction_reg
+            instruction_reg <= instruction_reg;
         end
     end
 
