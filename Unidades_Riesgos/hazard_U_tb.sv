@@ -11,7 +11,7 @@ module Hazard_U_tb;
     logic MemRead;
     logic [31:0] Instruction;
 
-    // Señales de salida
+    // Señales de salidas
     logic SignalPC;
 
     // Instancia del módulo bajo prueba
