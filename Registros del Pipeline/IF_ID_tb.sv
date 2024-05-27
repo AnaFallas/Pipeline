@@ -63,6 +63,8 @@ module IF_ID_tb;
         $display("instruction_out = %h", instruction_out);
         $display("out_pc = %h", out_pc);
 
+        
+
         // Finalizar simulación
         $finish;
     end
