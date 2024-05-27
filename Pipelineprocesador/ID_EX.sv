@@ -19,7 +19,7 @@ module ID_EX (
     output logic RegWrite_out,
     output logic MemRead_out,
     output logic MemWrite_out,
-    output logic [1:0] Aluop_out ,
+    output logic [1:0] Aluop_out,
     output logic [63:0] rs1Data_out,
     output logic [63:0] rs2Data_out,
     output logic [4:0] rs_out,
@@ -76,7 +76,7 @@ module ID_EX (
     end
 
     // Asignamos las salidas de los registros
-    assign Aluop_out = reg_Aluop;
+    assign AluSrc_out = reg_AluSrc;
     assign MemtoReg_out = reg_MemtoReg  ;
     assign RegWrite_out = reg_RegWrite;
     assign MemRead_out = reg_MemRead;
