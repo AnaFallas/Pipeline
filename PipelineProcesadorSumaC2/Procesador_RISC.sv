@@ -102,7 +102,7 @@ module Procesador_RISC;
     end
 
     Clock clock1(
-        clk
+        .CLK(clk)
         );
 //Etapa del Instruction Fetch
     pc pc1(
@@ -135,21 +135,22 @@ module Procesador_RISC;
          );
 //Etapa del Instruction Decode 
     RegisterBank register_bank(//listo
-        instruction_id[19:15], 
-        instruction_id[24:20], 
-        instruction_id[11:7], 
+    
+        .register1(instruction_id[19:15]), 
+        .register2(instruction_id[24:20]), 
+        .register3(instruction_id[11:7]), 
 
-        resultWb, //nuevo dato despues de un sw o lw
-        clk, 
-        RegWrite_wb, 
-        reg_data_1_id, 
-        reg_data_2_id
+        .datain(resultWb), //nuevo dato despues de un sw o lw
+        .clk(clk), 
+        .regwrite(RegWrite_wb), 
+        .dataout1(reg_data_1_id), 
+        .dataout2(reg_data_2_id)
         );
 
-     immgen GenImm(//listo
-        instruction_id,
-        ImmGen,
-        output_sign_extend_id
+    immgen GenImm(//listo
+        .instr(instruction_id),
+        .ImmSrc(ImmGen),
+        .Out(output_sign_extend_id)
     );
    
 //logica del branch + parte de la logica del pc
@@ -162,14 +163,14 @@ module Procesador_RISC;
     assign and_branch = comparador_result & branch_id;//listo
 
     ShiftUnit shift_unit(
-        output_sign_extend_id, 
-        output_shift_unit
+        .input_data(output_sign_extend_id), 
+        .output_data(output_shift_unit)
         );
 
     Adder shift_unit_adder(
-        id_pc, 
-        output_shift_unit, 
-        output_shift_unit_adder
+        .a(id_pc), 
+        .b(output_shift_unit), 
+        .out(output_shift_unit_adder)
         );
     //PC + 4 
     Adder adder1(
@@ -179,10 +180,10 @@ module Procesador_RISC;
         );
 
     Multiplexor PC_counter(//Mux para el PC 
-        output_pc_adder, 
-        output_shift_unit_adder, 
-        and_branch, 
-        newpc
+        .a(output_pc_adder), 
+        .b(output_shift_unit_adder), 
+        .select(and_branch), 
+        .result(newpc)
         );
 //fin logica branch + parte de la logica del pc
 
