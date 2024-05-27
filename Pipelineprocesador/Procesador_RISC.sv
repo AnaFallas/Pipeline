@@ -214,19 +214,9 @@ module Procesador_RISC;
         .adr(output_alu_mem),     
         .datain(result_forwardB_mem),  
         .w(MemWrite_mem),
-        .r(),
+        .r(),//VERO
         .clk(clk),
         .dataout(output_data_memory_mem)
-
-
-
-
-        output_alu, 
-        reg_data_2, 
-        mem_write, 
-        mem_read, 
-        clk, 
-        output_data_memory_mem
         );
 //Mux de la etapa de WB
     Multiplexor data_memory_multiplexor(
