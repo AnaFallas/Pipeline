@@ -288,7 +288,7 @@ module Procesador_RISC;
         .RegWrite_Out(RegWrite_mem),
         .MemtoReg_Out(MemtoReg_mem),
         .MemWrite_Out(MemWrite_mem),
-        .MemRead_out(MemRead_mem);
+        .MemRead_out(MemRead_mem),
     //datos de salida 
         .AluOut(output_alu_mem),
         .DataOut(result_forwardB_mem),//mux
