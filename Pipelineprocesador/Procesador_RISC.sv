@@ -108,13 +108,14 @@ module Procesador_RISC;
         .clk(clk),
         .rst(),
         .en_hold(enable_stall),
-        .pc_sig(),
-        .newpc()
+        .pc_sig(newpc),
+
+        .asig_pc(fetch_pc)
         
      );
 
     InstructionMemory InstructionMemory1(//LISTO
-        .adr({2'b00,oldpc[63:2]}),
+        .adr({2'b00,fetch_pc[63:2]}),
         .Instruction(instruction_fetch)
         );
 
@@ -166,13 +167,13 @@ module Procesador_RISC;
         );
 
     Adder shift_unit_adder(
-        oldpc, 
+        id_pc, 
         output_shift_unit, 
         output_shift_unit_adder
         );
-    //Quite este adder porque es parte de la lógica del branch que no tenemos todavía 
+    //PC + 4 
     Adder adder1(
-        .a(oldpc),
+        .a(fetch_pc),
         .b(64'h4), 
         .out(output_pc_adder)
         );
@@ -233,7 +234,7 @@ module Procesador_RISC;
     //Pipeline registros intermedios Listo
     IF_ID PipelineRegisto1(
         .clk(clk),
-        .rst(pc_reset),
+        .rst(),
         .instruction_in(instruction_fetch),
         .pc(fetch_pc),
         .PCSrcD_Control(enable_stall),

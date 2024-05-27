@@ -3,15 +3,15 @@ module pc (
     input logic rst,
     input logic en_hold,
     input logic [63:0] pc_sig,
-    output logic [63:0] newpc
+    output logic [63:0] asig_pc
 );
     always_ff @(posedge clk) begin
         if (rst)begin 
-            newpc <= 0;
+            asig_pc <= 0;
         end else if (!en_hold) begin
-            newpc <= pc_sig;
+            asig_pc <= pc_sig;
         end else begin
-            newpc <= newpc;
+            asig_pc <= asig_pc;
         end
     end
 endmodule
