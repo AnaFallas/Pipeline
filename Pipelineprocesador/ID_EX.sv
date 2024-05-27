@@ -29,7 +29,7 @@ module ID_EX (
 );
 
     // Declaración de los registros del pipeline
-    
+    // prueba 
     logic reg_AluSrc;
     logic reg_MemtoReg;
     logic reg_RegWrite;
