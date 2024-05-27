@@ -104,10 +104,13 @@ module Procesador_RISC;
         clk
         );
 //Etapa del Instruction Fetch
-    pc pc1(clk,
-     pc_reset, 
-     newpc, 
-     fetch_pc
+    pc pc1(
+        .clk(clk),
+        .rst(),
+        .en_hold(enable_stall),
+        .pc_sig(),
+        .newpc()
+        
      );
 
     InstructionMemory InstructionMemory1(//LISTO
@@ -233,7 +236,7 @@ module Procesador_RISC;
         .rst(pc_reset),
         .instruction_in(instruction_fetch),
         .pc(fetch_pc),
-        .PCSrcD_Control(enable_stall),//todavía no esta jsjs
+        .PCSrcD_Control(enable_stall),
         .flush(),//hazard tampoco está
         .instruction_out(instruction_id),
         .out_pc(id_pc)
