@@ -28,12 +28,8 @@
 module Procesador_RISC;
     wire clk;
     reg pc_reset;
-    wire [63:0] newpc;//veremos
-    wire reg_to_loc;
-    //wire branch;
+    wire [63:0] newpc;//Conexion del mux al pc 
     wire [1:0] ImmGen;
-    wire muxShift;
-    wire [4:0] output_register_bank_multiplexor;
 //Variables de control
     logic branch_id;
     logic RegWrite_id;
@@ -83,6 +79,7 @@ module Procesador_RISC;
     logic instruction_wb[31:0];
 
     logic resultWb[63:0];//mux wb
+//Variables para hazards 
     logic selec_forwardA[1:0];
     logic selec_forwardB[1:0];
     logic result_forwardA[63:0];
