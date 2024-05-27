@@ -191,7 +191,7 @@ module Procesador_RISC;
         .A(result_forwardA), 
         .B(entrada_B_ALU),
         .ALU_Sel(AluControl_ex),
-        .ALU_Out(output_alu_ex),
+        .ALU_Out(output_alu_ex)
         );
     
     Mux3 forwardA(  
