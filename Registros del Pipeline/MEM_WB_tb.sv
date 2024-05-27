@@ -1,5 +1,5 @@
 `timescale 1ns/1ns
-`include "MEN_WB.sv"
+`include "MEM_WB.sv"
 
 module MEM_WB_tb;
 
