@@ -7,6 +7,12 @@ module DataMemory (
 );
 
     logic [7:0] MEMO [31:0]; // Tamaño de la memoria ajustado
+
+    initial begin
+        MEMO[0]=20;
+        MEMO[2]=50;
+        MEMO[12]=100;
+    end
     
     assign dataout = (r) ? { 
         MEMO[adr + 7],

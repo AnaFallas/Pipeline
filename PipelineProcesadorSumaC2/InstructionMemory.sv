@@ -26,25 +26,30 @@ module InstructionMemory #(parameter size = 64) (
         Memory[14] = 8'h00;
         Memory[15] = 8'hF8;*/
 
-        Memory[0] = 8'hB3;
-        Memory[1] = 8'h00;
-        Memory[2] = 8'h21;
+        Memory[0] = 8'h03;
+        Memory[1] = 8'h21;
+        Memory[2] = 8'hC1;
         Memory[3] = 8'h00;
 
-        Memory[4] = 8'h23;
-        Memory[5] = 8'h26;
-        Memory[6] = 8'h10;
+        Memory[4] = 8'hB3;
+        Memory[5] = 8'h00;
+        Memory[6] = 8'h21;
         Memory[7] = 8'h00;
 
-        Memory[8] = 8'h83;
-        Memory[9] = 8'h21;
-        Memory[10] = 8'hC0;
+        Memory[8] = 8'h23;
+        Memory[9] = 8'h26;
+        Memory[10] = 8'h10;
         Memory[11] = 8'h00;
 
-        Memory[12] = 8'hE3;
-        Memory[13] = 8'h0A;
-        Memory[14] = 8'h31;
-        Memory[15] = 8'hFE;
+        Memory[12] = 8'h83;
+        Memory[13] = 8'h21;
+        Memory[14] = 8'hC0;
+        Memory[15] = 8'h00;
+
+        Memory[16] = 8'hE3;
+        Memory[17] = 8'h0A;
+        Memory[18] = 8'h31;
+        Memory[19] = 8'hFE;
 
     
     end
