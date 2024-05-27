@@ -154,10 +154,10 @@ module Procesador_RISC;
         .resultado(comparador_result)
         );
 
-    assing and_branch = comparador_result & branch_id;//listo
+    assign and_branch = comparador_result & branch_id;//listo
 
     ShiftUnit shift_unit(
-        output_sign_extend, 
+        output_sign_extend_id, 
         output_shift_unit
         );
 
@@ -166,20 +166,19 @@ module Procesador_RISC;
         output_shift_unit, 
         output_shift_unit_adder
         );
-    assign muxShift =   zero_alu & branch;
     //Quite este adder porque es parte de la lógica del branch que no tenemos todavía 
-   /* Adder adder1(
-        oldpc,
-        64'b100, 
-        output_pc_adder
-        );*/ 
+    Adder adder1(
+        .a(oldpc),
+        .b(64'h4), 
+        .out(output_pc_adder)
+        );
 
-    /*Multiplexor shift_unit_multiplexor(//Utilizar para el branch 
+    Multiplexor PC_counter(//Mux para el PC 
         output_pc_adder, 
         output_shift_unit_adder, 
-        muxShift, 
+        and_branch, 
         newpc
-        );*/
+        );
 //fin logica branch 
 
 //Etapa del execute 
