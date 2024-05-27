@@ -2,9 +2,9 @@ module Alu(
     input logic [63:0] A, B,
     input logic [1:0] ALU_Sel,
     output logic [63:0] ALU_Out,
-    output logic coutfin, 
+    output logic coutfin
     //output logic z 
-);
+    );
 
     logic [63:0] ALU_Result;
     //logic [63:0] Suma_Result; 
