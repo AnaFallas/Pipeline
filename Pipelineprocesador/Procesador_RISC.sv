@@ -325,7 +325,7 @@ module Procesador_RISC;
         .forwardA(selec_forwardA),   //Seleccion de los mux     
         .forwardB(selec_forwardB)     
     );
-    Hazard Unidad_de_Hazards(//listo
+    Hazard_U Unidad_de_Hazards(//listo
         .R_d(instruction_ex[11:7]),
         .MemRead(MemRead_ex),
         .Instruction(instruction_id), 
