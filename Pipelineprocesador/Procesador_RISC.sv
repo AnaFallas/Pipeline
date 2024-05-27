@@ -147,13 +147,13 @@ module Procesador_RISC;
     );
    
 //logica del branch
-    comparador branch_comparador(
+    comparador branch_comparador(//listo
         .dato_rs1(reg_data_1_id),
         .dato_rs2(reg_data_2_id),
         .resultado(comparador_result)
         );
 
-    assing and_branch = comparador_result & branch_id;
+    assing and_branch = comparador_result & branch_id;//listo
 
     ShiftUnit shift_unit(
         output_sign_extend, 
@@ -211,6 +211,16 @@ module Procesador_RISC;
         );
 //Etapa de MEM
     DataMemory data_memory(
+        .adr(output_alu_mem),     
+        .datain(result_forwardB_mem),  
+        .w(MemWrite_mem),
+        .r(),
+        .clk(clk),
+        .dataout(output_data_memory_mem)
+
+
+
+
         output_alu, 
         reg_data_2, 
         mem_write, 
