@@ -28,12 +28,8 @@
 module Procesador_RISC;
     wire clk;
     reg pc_reset;
-    wire [63:0] newpc;//veremos
-    wire reg_to_loc;
-    //wire branch;
+    wire [63:0] newpc;//Conexion del mux al pc 
     wire [1:0] ImmGen;
-    wire muxShift;
-    wire [4:0] output_register_bank_multiplexor;
 //Variables de control
     logic branch_id;
     logic RegWrite_id;
@@ -83,6 +79,7 @@ module Procesador_RISC;
     logic instruction_wb[31:0];
 
     logic resultWb[63:0];//mux wb
+//Variables para hazards 
     logic selec_forwardA[1:0];
     logic selec_forwardB[1:0];
     logic result_forwardA[63:0];
@@ -91,8 +88,8 @@ module Procesador_RISC;
     logic result_forwardB_mem[63:0];
     logic enable_stall;
     logic comparador_result;
-//Hay que revisar porque hay señales que ya no se usan
-    wire [63:0] output_pc_adder, output_data_memory, output_alu, reg_data_1, reg_data_2,output_alu_multiplexor, input_data_register, output_sign_extend, output_shift_unit, output_shift_unit_adder;
+
+    wire [63:0] output_pc_adder, output_shift_unit, output_shift_unit_adder;
 
     initial begin
         pc_reset = 1;
@@ -108,13 +105,14 @@ module Procesador_RISC;
         .clk(clk),
         .rst(),
         .en_hold(enable_stall),
-        .pc_sig(),
-        .newpc()
+        .pc_sig(newpc),
+
+        .asig_pc(fetch_pc)
         
      );
 
     InstructionMemory InstructionMemory1(//LISTO
-        .adr({2'b00,oldpc[63:2]}),
+        .adr({2'b00,fetch_pc[63:2]}),
         .Instruction(instruction_fetch)
         );
 
@@ -143,7 +141,6 @@ module Procesador_RISC;
         reg_data_1_id, 
         reg_data_2_id
         );
-//Pueba
 
      immgen GenImm(//listo
         instruction_id,
@@ -151,7 +148,7 @@ module Procesador_RISC;
         output_sign_extend_id
     );
    
-//logica del branch
+//logica del branch + parte de la logica del pc
     comparador branch_comparador(//listo
         .dato_rs1(reg_data_1_id),
         .dato_rs2(reg_data_2_id),
@@ -166,13 +163,13 @@ module Procesador_RISC;
         );
 
     Adder shift_unit_adder(
-        oldpc, 
+        id_pc, 
         output_shift_unit, 
         output_shift_unit_adder
         );
-    //Quite este adder porque es parte de la lógica del branch que no tenemos todavía 
+    //PC + 4 
     Adder adder1(
-        .a(oldpc),
+        .a(fetch_pc),
         .b(64'h4), 
         .out(output_pc_adder)
         );
@@ -183,7 +180,7 @@ module Procesador_RISC;
         and_branch, 
         newpc
         );
-//fin logica branch 
+//fin logica branch + parte de la logica del pc
 
 //Etapa del execute 
     Alu alu1(
@@ -230,10 +227,10 @@ module Procesador_RISC;
         .result(resultWb)
         );
 
-    //Pipeline registros intermedios Listo
+//Pipeline registros intermedios
     IF_ID PipelineRegisto1(
         .clk(clk),
-        .rst(pc_reset),
+        .rst(),
         .instruction_in(instruction_fetch),
         .pc(fetch_pc),
         .PCSrcD_Control(enable_stall),
@@ -330,7 +327,7 @@ module Procesador_RISC;
         .Instruction(instruction_id), 
         .SignalPC(enable_stall)//revisar el pc
     );
-//Falta:copiar el reset 
+
     initial begin
         $dumpfile("Procesador_RISC.vcd");
         $dumpvars(5, Procesador_RISC);
