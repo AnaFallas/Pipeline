@@ -76,7 +76,7 @@ module ID_EX_tb;
 
         // Inicializar señales
         clk = 1;
-        reset = 0;
+        rst = 0;
         AluSrc_in = 0;
         MemtoReg_in = 0;
         RegWrite_in = 0;

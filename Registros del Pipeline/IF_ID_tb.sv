@@ -40,7 +40,7 @@ module IF_ID_tb;
 
         // Inicializar señales
         clk = 1;
-        reset = 0;
+        rst = 0;
         instruction_in = 32'h00000000;
         pc = 64'h0000000000000000;
         PCSrcD_Control = 0;
