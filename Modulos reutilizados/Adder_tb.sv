@@ -9,7 +9,7 @@ module Adder_tb;
     logic [63:0] out;
 
     // Instanciar el módulo que se está probando
-    adder dut (
+    Adder dut (
         .a(a),
         .b(b),
         .out(out)
