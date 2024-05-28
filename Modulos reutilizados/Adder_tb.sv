@@ -1,7 +1,7 @@
 `timescale 1ns/10ps
 `include "Adder.sv"
 
-module adder_tb;
+module Adder_tb;
 
     // Parámetros y señales de entrada/salida
     logic [63:0] a;
