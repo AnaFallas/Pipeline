@@ -25,7 +25,7 @@
 
 
 
-module Procesador_RISC;
+module Procesador_RISC_Pipeline;
     wire clk;
     reg pc_reset;
     wire [63:0] newpc;//Conexion del mux al pc 
@@ -334,8 +334,8 @@ module Procesador_RISC;
     );
 
     initial begin
-        $dumpfile("Procesador_RISC.vcd");
-        $dumpvars(5, Procesador_RISC);
+        $dumpfile("Procesador_RISC_Pipeline.vcd");
+        $dumpvars(5, Procesador_RISC_Pipeline);
         repeat(20) @(posedge clk);
         $finish;
     end 
