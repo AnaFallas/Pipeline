@@ -16,3 +16,6 @@ En esta carpeta se encuentra la lógica de los módulos del Forwarding unit y el
 
 ### Carpeta de Pipeline Procesador
 En esta carpeta se encuentra el top del proyecto junto con su testbench. En esta carpeta se incluyen los módulos de las carpetas anteriores pero en este caso sin sus testbenchs ya que estos se encuentran por separado en cada carpeta.
+
+
+**NOTA:El ARCHIVO Procesador_RISC_Pipeline.sv en sí ya es el test bench**
