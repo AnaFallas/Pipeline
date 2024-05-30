@@ -3,7 +3,7 @@
 
 module EX_MEM_tb;
 
-    // Parámetros de simulación
+    // Parámetros de simulación 2
     localparam CLK_PERIOD = 10; // Período de reloj en unidades de tiempo
 
     // Señales de entrada
